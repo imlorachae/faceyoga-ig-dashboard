@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>페이스요가·두피마사지 IG 급상승 콘텐츠</title>
+<style>
+  :root{
+    --blue:#3b82f6; --blue-dark:#2563eb; --bg:#f8fafc; --card:#ffffff;
+    --text:#1e293b; --sub:#64748b; --border:#e2e8f0;
+    --explode:#dc2626; --break:#f97316; --spread:#3b82f6; --flat:#94a3b8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;background:var(--bg);color:var(--text);}
+  header{background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:28px 24px;}
+  header h1{margin:0 0 6px;font-size:22px}
+  header p{margin:0;color:#cbd5e1;font-size:13px}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 24px 60px}
+
+  /* tabs */
+  .tabbar{display:flex;gap:4px;margin:20px 0 0;border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:30;padding-top:16px}
+  .tab-btn{background:none;border:none;padding:12px 20px;font-size:14px;font-weight:700;color:var(--sub);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+  .tab-btn:hover{color:var(--text)}
+  .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+
+  .controls{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:20px 0;position:sticky;top:53px;z-index:20;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .controls-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .controls-row + .controls-row{margin-top:10px}
+  .controls label{font-size:12px;color:var(--sub);margin-right:4px}
+  .controls select,.controls input{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;background:#fff}
+  .controls input[type=search]{flex:1;min-width:160px}
+  .chip-group{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;background:#fff;color:var(--sub);user-select:none;white-space:nowrap}
+  .chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .count-badge{margin-left:auto;font-size:12px;color:var(--sub)}
+  .btn-primary{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .btn-primary:hover{background:var(--blue-dark)}
+  .btn-ghost{background:none;border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:12.5px;color:var(--sub);cursor:pointer}
+  .btn-ghost:hover{color:var(--text);border-color:var(--sub)}
+
+  h2.section{font-size:16px;margin:30px 0 14px;display:flex;align-items:center;gap:8px}
+  h2.section .sub{font-size:12px;color:var(--sub);font-weight:400}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+
+  .card-head{padding:12px 16px 10px;border-bottom:1px solid var(--border)}
+  .card-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+  .cat-tag{font-size:11px;padding:3px 8px;border-radius:6px;background:#eff6ff;color:var(--blue-dark);font-weight:600;display:inline-block}
+  .card-title{font-size:14.5px;font-weight:700;line-height:1.35}
+  .clickable-title{cursor:pointer}
+  .clickable-title:hover{color:var(--blue);text-decoration:underline}
+
+  .card-embed{aspect-ratio:9/13;background:#f1f5f9;overflow:hidden;position:relative}
+  .card-embed-empty{background:#f1f5f9;color:var(--sub);font-size:12.5px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;min-height:90px}
+  .card-embed iframe,.card-embed .instagram-media{width:100% !important;min-width:0 !important;height:100% !important}
+  .card-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--sub);font-size:12px;padding:16px;text-align:center}
+  .popup-btn{position:absolute;bottom:10px;right:10px;z-index:2;background:rgba(15,23,42,.72);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer;backdrop-filter:blur(2px)}
+  .popup-btn:hover{background:var(--blue)}
+
+  .card-account-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);background:#fafbfc}
+  .card-account-row .acct{font-weight:700;font-size:13.5px}
+  .card-account-row .acct a{color:var(--text);text-decoration:none}
+  .card-account-row .acct a:hover{color:var(--blue)}
+  .profile-link{font-size:11.5px;background:var(--blue);color:#fff;text-decoration:none;padding:5px 10px;border-radius:6px;font-weight:600}
+  .profile-link:hover{background:var(--blue-dark)}
+
+  .card-body{padding:12px 16px 14px}
+  .card-metrics{display:flex;gap:14px;font-size:12px;color:var(--sub);margin-bottom:8px}
+  .card-metrics b{color:var(--text);font-size:13px}
+  .vfr-badge{font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .t-explode{background:#fef2f2;color:var(--explode)}
+  .t-break{background:#fff7ed;color:var(--break)}
+  .t-spread{background:#eff6ff;color:var(--spread)}
+  .t-flat{background:#f1f5f9;color:var(--flat)}
+  .card-note{font-size:12.5px;color:var(--sub);line-height:1.5;margin-bottom:10px}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .topic-tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:6px;background:#f1f5f9;color:var(--sub)}
+  .topic-tag.onTopic{background:#f0fdf4;color:#16a34a}
+  .topic-tag.adjacent{background:#fefce8;color:#ca8a04}
+  .topic-tag.off{background:#fef2f2;color:var(--explode)}
+  .topic-tag.custom{background:#f5f3ff;color:#7c3aed}
+  .del-btn{background:none;border:none;color:#cbd5e1;font-size:12px;cursor:pointer;padding:4px 6px}
+  .del-btn:hover{color:var(--explode)}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:#f8fafc;color:var(--sub);font-weight:600;font-size:12px;cursor:pointer;user-select:none;white-space:nowrap}
+  th:hover{color:var(--blue)}
+  tbody tr:hover{background:#f8fafc}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .play-btn{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+  .play-btn:hover{background:var(--blue-dark)}
+  .acct-cell a{color:var(--text);text-decoration:none;font-weight:600}
+  .acct-cell a:hover{color:var(--blue)}
+  .note-cell{color:var(--sub);font-size:12px;max-width:220px}
+  .row-actions{display:flex;gap:6px}
+  select.inline-select{border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:12px;font-family:inherit;background:#fff}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-block}
+  .prio-high{background:#fef2f2;color:var(--explode)}
+  .prio-mid{background:#fff7ed;color:var(--break)}
+  .prio-low{background:#f1f5f9;color:var(--flat)}
+  .stat-wait{background:#f1f5f9;color:var(--sub)}
+  .stat-progress{background:#eff6ff;color:var(--blue-dark)}
+  .stat-done{background:#f0fdf4;color:#16a34a}
+  .empty-hint{color:var(--sub);font-size:13px;padding:30px;text-align:center;background:var(--card);border:1px dashed var(--border);border-radius:12px}
+  .sent-badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:#f0fdf4;color:#16a34a;cursor:pointer;white-space:nowrap;border:none}
+  .src-link{font-size:11px;color:var(--blue);text-decoration:none;margin-left:6px}
+  .src-link:hover{text-decoration:underline}
+
+  /* calendar */
+  .cal-nav{display:flex;align-items:center;gap:8px}
+  .cal-nav button{background:#fff;border:1px solid var(--border);border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:13px;color:var(--sub)}
+  .cal-nav button:hover{color:var(--blue);border-color:var(--blue)}
+  .cal-title{font-weight:700;font-size:15px;min-width:100px;text-align:center}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:6px}
+  .cal-weekday{text-align:center;font-size:12px;color:var(--sub);font-weight:700;padding:2px 0 6px}
+  .cal-cell{background:var(--card);border:1px solid var(--border);border-radius:10px;min-height:104px;padding:6px;display:flex;flex-direction:column;gap:4px}
+  .cal-cell.outside{background:#f1f5f9;opacity:.55}
+  .cal-cell.today{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue) inset}
+  .cal-daynum{font-size:12px;font-weight:700;color:var(--sub)}
+  .cal-daynum:hover{color:var(--blue)}
+  .cal-event{border-radius:6px;padding:3px 5px;font-size:11px;display:flex;align-items:center;gap:4px}
+  .cal-event.stat-wait{background:#f1f5f9;color:var(--sub)}
+  .cal-event.stat-progress{background:#eff6ff;color:var(--blue-dark)}
+  .cal-event.stat-done{background:#f0fdf4;color:#16a34a}
+  .cal-event.stat-done .cal-ev-title{text-decoration:line-through}
+  .cal-ev-dot{cursor:pointer;font-size:9px;line-height:1}
+  .cal-ev-title{color:inherit;text-decoration:none;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+  a.cal-ev-title:hover{text-decoration:underline}
+  .cal-ev-del{background:none;border:none;color:inherit;opacity:.45;cursor:pointer;font-size:12px;padding:0;line-height:1}
+  .cal-ev-del:hover{opacity:1}
+
+  /* modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:#fff;border-radius:14px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:22px 24px}
+  .modal h3{margin:0 0 4px;font-size:17px}
+  .modal p.hint{margin:0 0 16px;font-size:12.5px;color:var(--sub)}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:5px}
+  .field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13.5px;font-family:inherit}
+  .field textarea{resize:vertical;min-height:56px}
+  .field .req{color:var(--explode)}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+  .btn-cancel{background:#f1f5f9;color:var(--sub);border:none;border-radius:8px;padding:9px 16px;font-size:13px;cursor:pointer}
+
+  footer{text-align:center;color:var(--sub);font-size:12px;padding:30px 0 10px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>페이스요가·두피마사지 셀프케어 — IG 콘텐츠 리서치 & 운영 도구</h1>
+  <p>2026-08-05 최초 수집 · 서치계정 관리 / 시장조사 / 콘텐츠 업데이트 대상 / 업데이트 일정 · 모든 편집 내용은 이 브라우저에 저장됩니다</p>
+</header>
+
+<div class="wrap">
+  <div class="tabbar">
+    <button class="tab-btn active" data-tab="search">🔎 서치계정</button>
+    <button class="tab-btn" data-tab="market">📊 시장조사</button>
+    <button class="tab-btn" data-tab="targets">🎯 업데이트 대상</button>
+    <button class="tab-btn" data-tab="schedule">🗓 업데이트 일정</button>
+  </div>
+
+  <!-- ══════════ 탭 1: 서치계정 ══════════ -->
+  <section id="tab-search" class="tab-panel active">
+    <div class="controls">
+      <div class="controls-row">
+        <label>검색</label>
+        <input type="search" id="sa_search" placeholder="계정명 검색...">
+        <button class="btn-primary" id="sa_addBtn">＋ 계정 추가</button>
+        <span class="count-badge" id="sa_count"></span>
+      </div>
+      <div class="controls-row">
+        <label>부위</label>
+        <div class="chip-group" id="sa_catChips"></div>
+      </div>
+    </div>
+    <h2 class="section">🔎 리서치 대상 계정 <span class="sub">— 정기적으로 관찰할 계정 목록</span></h2>
+    <table id="sa_table">
+      <thead><tr><th>계정</th><th>팔로워</th><th>부위</th><th>메모</th><th>프로필</th><th>관리</th></tr></thead>
+      <tbody id="sa_body"></tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ 탭 2: 시장조사 ══════════ -->
+  <section id="tab-market" class="tab-panel">
+    <div class="controls">
+      <div class="controls-row">
+        <label>정렬</label>
+        <select id="sortSel">
+          <option value="vfr">돌파배수 높은순</option>
+          <option value="views">조회수 높은순</option>
+          <option value="followers">팔로워 높은순</option>
+          <option value="account">계정명순</option>
+        </select>
+        <input type="search" id="searchBox" placeholder="계정명/제목 검색...">
+        <button class="btn-primary" id="addBtn">＋ 영상 추가</button>
+        <button class="btn-ghost" id="restoreBtn" style="display:none">삭제한 항목 되돌리기</button>
+        <span class="count-badge" id="countBadge"></span>
+      </div>
+      <div class="controls-row">
+        <label>부위</label>
+        <div class="chip-group" id="catChips"></div>
+      </div>
+      <div class="controls-row">
+        <label>주제적합성</label>
+        <div class="chip-group" id="topicChips">
+          <span class="chip active" data-topic="all">전체</span>
+          <span class="chip" data-topic="onTopic">✅ 온토픽</span>
+          <span class="chip" data-topic="adjacent">🟡 인접</span>
+          <span class="chip" data-topic="general">⬜ 일반뷰티</span>
+          <span class="chip" data-topic="off">⚠️ 무관</span>
+          <span class="chip" data-topic="custom">✏️ 직접추가</span>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section">⭐ 카드 보기 <span class="sub">— 제목/부위 → 이미지 → 계정 → 데이터 순</span></h2>
+    <div class="grid" id="cardGrid"></div>
+
+    <h2 class="section">📋 전체 데이터 테이블 <span class="sub">— 클릭 시 팝업으로 재생</span></h2>
+    <table id="fullTable">
+      <thead>
+        <tr>
+          <th data-k="account">계정</th>
+          <th>제목/부위</th>
+          <th data-k="followers">팔로워</th>
+          <th data-k="views">조회수</th>
+          <th data-k="vfr">돌파배수</th>
+          <th data-k="topic">주제</th>
+          <th>재생</th>
+          <th>관리</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ 탭 3: 업데이트 대상 ══════════ -->
+  <section id="tab-targets" class="tab-panel">
+    <div class="controls">
+      <div class="controls-row">
+        <label>검색</label>
+        <input type="search" id="ut_search" placeholder="제목 검색...">
+        <button class="btn-primary" id="ut_addBtn">＋ 업데이트 대상 추가</button>
+        <span class="count-badge" id="ut_count"></span>
+      </div>
+    </div>
+    <h2 class="section">⭐ 카드 미리보기 <span class="sub">— 참고 영상이 있으면 바로 재생됩니다</span></h2>
+    <div class="grid" id="ut_cardGrid"></div>
+
+    <h2 class="section">📋 전체 목록</h2>
+    <table id="ut_table">
+      <thead><tr><th>제목</th><th>부위</th><th>우선순위</th><th>상태</th><th>참고/메모</th><th>관리</th></tr></thead>
+      <tbody id="ut_body"></tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ 탭 4: 업데이트 일정 ══════════ -->
+  <section id="tab-schedule" class="tab-panel">
+    <div class="controls">
+      <div class="controls-row">
+        <div class="cal-nav">
+          <button id="cal_prev">◀</button>
+          <span class="cal-title" id="cal_title"></span>
+          <button id="cal_next">▶</button>
+        </div>
+        <button class="btn-ghost" id="cal_today">오늘</button>
+        <input type="search" id="sc_search" placeholder="제목 검색...">
+        <button class="btn-primary" id="sc_addBtn">＋ 일정 추가</button>
+        <span class="count-badge" id="sc_count"></span>
+      </div>
+    </div>
+    <h2 class="section">🗓 업데이트 일정 <span class="sub">— 날짜 숫자 클릭으로 그 날짜에 바로 추가 · 제목 클릭 시 참고 링크 재생 · ● 클릭으로 상태 변경</span></h2>
+    <div class="cal-grid" id="cal_weekdays"></div>
+    <div class="cal-grid" id="sc_calendar"></div>
+  </section>
+
+  <footer>JB_SNS_IG_SelfCare · 반자동 수집 프로세스 (수집_검증_프로세스.md 참고) · 인스타그램 자체 정책상 완전 자동화 불가 · 모든 추가/삭제/상태 변경은 이 브라우저에만 저장됩니다</footer>
+</div>
+
+<!-- 모달: 시장조사 영상 추가 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">영상 추가</h3>
+    <p class="hint">인스타그램 릴스 URL과 정보를 입력하세요. 조회수·팔로워는 릴스탭에서 직접 확인한 숫자를 넣어주세요.</p>
+    <div class="field"><label>계정명 <span class="req">*</span></label><input type="text" id="f_account" placeholder="예: dayjin_beauty (@ 제외)"></div>
+    <div class="field"><label>릴스 URL 또는 코드 <span class="req">*</span></label><input type="text" id="f_url" placeholder="https://www.instagram.com/reel/XXXXXXXXX/"></div>
+    <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="f_title" placeholder="예: 두피 마사지로 얼굴 올리는 법"></div>
+    <div class="field"><label>부위 카테고리</label><select id="f_category"></select></div>
+    <div class="field"><label>주제적합성</label>
+      <select id="f_topic">
+        <option value="onTopic">✅ 온토픽</option><option value="adjacent">🟡 인접</option>
+        <option value="general">⬜ 일반뷰티</option><option value="off">⚠️ 무관</option>
+      </select>
+    </div>
+    <div class="field"><label>팔로워 수</label><input type="number" id="f_followers" placeholder="예: 36000"></div>
+    <div class="field"><label>조회수</label><input type="number" id="f_views" placeholder="예: 376000"></div>
+    <div class="field"><label>비고</label><textarea id="f_note" placeholder="내용 설명, 특이사항 등"></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" id="modalCancel">취소</button><button class="btn-primary" id="modalSave">추가</button></div>
+  </div>
+</div>
+
+<!-- 모달: 서치계정 추가 -->
+<div class="modal-overlay" id="sa_modal">
+  <div class="modal">
+    <h3 id="sa_modalTitle">서치계정 추가</h3>
+    <p class="hint">정기적으로 관찰할 인스타그램 계정을 등록하세요.</p>
+    <div class="field"><label>계정명 <span class="req">*</span></label><input type="text" id="sa_f_account" placeholder="예: dayjin_beauty (@ 제외)"></div>
+    <div class="field"><label>팔로워 수</label><input type="number" id="sa_f_followers" placeholder="예: 36000"></div>
+    <div class="field"><label>부위 카테고리</label><select id="sa_f_category"></select></div>
+    <div class="field"><label>메모</label><textarea id="sa_f_note" placeholder="계정 특징, 관찰 이유 등"></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" id="sa_modalCancel">취소</button><button class="btn-primary" id="sa_modalSave">추가</button></div>
+  </div>
+</div>
+
+<!-- 모달: 업데이트 대상 추가 -->
+<div class="modal-overlay" id="ut_modal">
+  <div class="modal">
+    <h3 id="ut_modalTitle">업데이트 대상 추가</h3>
+    <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="ut_f_title" placeholder="예: 두피 마사지 릴스 제작"></div>
+    <div class="field"><label>부위 카테고리</label><select id="ut_f_category"></select></div>
+    <div class="field"><label>우선순위</label>
+      <select id="ut_f_priority"><option value="high">높음</option><option value="mid" selected>중간</option><option value="low">낮음</option></select>
+    </div>
+    <div class="field"><label>상태</label>
+      <select id="ut_f_status"><option value="wait" selected>대기</option><option value="progress">진행중</option><option value="done">완료</option></select>
+    </div>
+    <div class="field"><label>참고/메모</label><textarea id="ut_f_note" placeholder="참고한 계정/영상, 기획 방향 등"></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" id="ut_modalCancel">취소</button><button class="btn-primary" id="ut_modalSave">추가</button></div>
+  </div>
+</div>
+
+<!-- 모달: 업데이트 일정 추가 -->
+<div class="modal-overlay" id="sc_modal">
+  <div class="modal">
+    <h3 id="sc_modalTitle">업데이트 일정 추가</h3>
+    <div class="field"><label>날짜 <span class="req">*</span></label><input type="date" id="sc_f_date"></div>
+    <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="sc_f_title" placeholder="예: 두피 마사지 릴스 업로드"></div>
+    <div class="field"><label>담당자</label><input type="text" id="sc_f_assignee" placeholder="예: 정민"></div>
+    <div class="field"><label>참고 링크</label><input type="text" id="sc_f_link" placeholder="https://www.instagram.com/reel/..."></div>
+    <div class="field"><label>상태</label>
+      <select id="sc_f_status"><option value="wait" selected>예정</option><option value="progress">진행중</option><option value="done">완료</option></select>
+    </div>
+    <div class="modal-actions"><button class="btn-cancel" id="sc_modalCancel">취소</button><button class="btn-primary" id="sc_modalSave">추가</button></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+const fmtN = n => n.toLocaleString('ko-KR');
+const fmtVFR = v => (v>=10 ? v.toFixed(1) : v.toFixed(2)) + 'x';
+const tierOf = v => TIER(v);
+function extractCode(input){
+  input = input.trim();
+  const m = input.match(/instagram\.com\/(?:reel|p)\/([A-Za-z0-9_-]+)/);
+  if(m) return m[1];
+  return input.replace(/[^A-Za-z0-9_-]/g,'');
+}
+function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function isTargeted(marketId){ return loadTargets().some(t => t.sourceId === marketId); }
+function isScheduled(targetId){ return loadSchedule().some(s => s.sourceTargetId === targetId); }
+
+/* ══════════ 탭 전환 ══════════ */
+function jumpToTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => jumpToTab(btn.dataset.tab));
+});
+
+/* ══════════════════════════════════════════════
+   탭 2: 시장조사 (기존 로직)
+   ══════════════════════════════════════════════ */
+const LS_CUSTOM = 'igdash_custom_v1';
+const LS_HIDDEN = 'igdash_hidden_v1';
+const LS_OVERRIDES = 'igdash_overrides_v1';
+function loadCustom(){ try{ return JSON.parse(localStorage.getItem(LS_CUSTOM)) || []; }catch(e){ return []; } }
+function saveCustom(list){ localStorage.setItem(LS_CUSTOM, JSON.stringify(list)); }
+function loadHidden(){ try{ return JSON.parse(localStorage.getItem(LS_HIDDEN)) || []; }catch(e){ return []; } }
+function saveHidden(list){ localStorage.setItem(LS_HIDDEN, JSON.stringify(list)); }
+function loadOverrides(){ try{ return JSON.parse(localStorage.getItem(LS_OVERRIDES)) || {}; }catch(e){ return {}; } }
+function saveOverrides(obj){ localStorage.setItem(LS_OVERRIDES, JSON.stringify(obj)); }
+
+let mState = { sort:'vfr', topic:'all', category:'all', q:'' };
+
+function allRows(){
+  const hidden = new Set(loadHidden());
+  const overrides = loadOverrides();
+  const merged = REELS.concat(loadCustom());
+  return merged.filter(r => !hidden.has(r.id)).map(r => {
+    const o = {...r, ...(overrides[r.id]||{})};
+    return {...o, vfr: o.views / o.followers};
+  });
+}
+function applyMarketFilters(){
+  let list = allRows();
+  if(mState.topic !== 'all') list = list.filter(r => r.topic === mState.topic);
+  if(mState.category !== 'all') list = list.filter(r => r.category === mState.category);
+  if(mState.q){
+    const q = mState.q.toLowerCase();
+    list = list.filter(r => r.account.toLowerCase().includes(q) || (r.title||'').toLowerCase().includes(q));
+  }
+  const sorters = { vfr:(a,b)=>b.vfr-a.vfr, views:(a,b)=>b.views-a.views, followers:(a,b)=>b.followers-a.followers, account:(a,b)=>a.account.localeCompare(b.account) };
+  list.sort(sorters[mState.sort]);
+  return list;
+}
+function cardHTML(r){
+  const t = tierOf(r.vfr);
+  const permalink = `https://www.instagram.com/reel/${r.code}/`;
+  return `
+  <div class="card">
+    <div class="card-head">
+      <div class="card-cats"><span class="cat-tag">${esc(r.category || '기타')}</span></div>
+      <div class="card-title">${esc(r.title || r.note || r.bio)}</div>
+    </div>
+    <div class="card-embed" id="embed-${r.id}">
+      <blockquote class="instagram-media" data-instgrm-permalink="${permalink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
+      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
+      <button class="popup-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
+    </div>
+    <div class="card-account-row">
+      <div class="acct"><a href="https://www.instagram.com/${r.account}/" target="_blank">@${esc(r.account)}</a></div>
+      <a class="profile-link" href="https://www.instagram.com/${r.account}/" target="_blank">프로필 보기</a>
+    </div>
+    <div class="card-body">
+      <div class="card-metrics">
+        <span>👤 <b>${fmtN(r.followers)}</b></span>
+        <span>👁 <b>${fmtN(r.views)}</b></span>
+        <span class="vfr-badge ${t.cls}">${t.label} ${fmtVFR(r.vfr)}</span>
+      </div>
+      <div class="card-note">${esc(r.note || '')}</div>
+      <div class="card-foot">
+        <span class="topic-tag ${r.topic}">${TOPIC_LABEL[r.topic] || r.topic}</span>
+        <span>
+          ${isTargeted(r.id)
+            ? `<button class="sent-badge" onclick="jumpToTab('targets')" title="업데이트 대상 탭에서 보기">✅ 대상추가됨</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendToTargets('${r.id}')">🎯 대상추가</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openMarketModal('${r.id}')">✏️ 수정</button>
+          <button class="del-btn" onclick="deleteMarketEntry('${r.id}')">🗑 삭제</button>
+        </span>
+      </div>
+    </div>
+  </div>`;
+}
+function renderCards(list){
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = list.map(cardHTML).join('') || `<div class="empty-hint">표시할 항목이 없습니다.</div>`;
+  processEmbeds(list);
+}
+function processEmbeds(list, idPrefix){
+  idPrefix = idPrefix || 'embed-';
+  let attempts = 0;
+  const tryProcess = () => {
+    attempts++;
+    if(window.instgrm && window.instgrm.Embeds){ window.instgrm.Embeds.process(); }
+    setTimeout(() => {
+      const missing = list.filter(r => { const el = document.getElementById(`${idPrefix}${r.id}`); return el && !el.querySelector('iframe'); });
+      if(missing.length && attempts < 6){ tryProcess(); }
+      else { missing.forEach(r => { const el = document.getElementById(`${idPrefix}${r.id}`); const fb = el && el.querySelector('.card-fallback'); if(fb) fb.style.display = 'flex'; }); }
+    }, 1200);
+  };
+  tryProcess();
+}
+function renderMarketTable(list){
+  const body = document.getElementById('tableBody');
+  body.innerHTML = list.map(r => {
+    const t = tierOf(r.vfr);
+    const permalink = `https://www.instagram.com/reel/${r.code}/`;
+    return `
+    <tr>
+      <td class="acct-cell"><a href="https://www.instagram.com/${r.account}/" target="_blank">@${esc(r.account)}</a></td>
+      <td class="note-cell"><b>${esc(r.title||'')}</b><br><span class="cat-tag" style="margin-top:3px">${esc(r.category||'기타')}</span></td>
+      <td class="num">${fmtN(r.followers)}</td>
+      <td class="num">${fmtN(r.views)}</td>
+      <td class="num"><span class="vfr-badge ${t.cls}">${fmtVFR(r.vfr)}</span></td>
+      <td><span class="topic-tag ${r.topic}">${TOPIC_LABEL[r.topic] || r.topic}</span></td>
+      <td><button class="play-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')">▶ 재생</button></td>
+      <td>
+        <span class="row-actions">
+          ${isTargeted(r.id)
+            ? `<button class="sent-badge" onclick="jumpToTab('targets')">✅ 대상추가됨</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendToTargets('${r.id}')">🎯 대상추가</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openMarketModal('${r.id}')">✏️ 수정</button>
+          <button class="del-btn" onclick="deleteMarketEntry('${r.id}')">🗑 삭제</button>
+        </span>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function renderCatChips(){
+  const el = document.getElementById('catChips');
+  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${mState.category===c?'active':''}" data-cat="${c}">${c==='all'?'전체':c}</span>`).join('');
+}
+function renderMarket(){
+  const list = applyMarketFilters();
+  document.getElementById('countBadge').textContent = `${list.length}개 표시 중`;
+  document.getElementById('restoreBtn').style.display = loadHidden().length ? 'inline-block' : 'none';
+  renderCatChips();
+  renderCards(list);
+  renderMarketTable(list);
+}
+function deleteMarketEntry(id){
+  const hidden = loadHidden();
+  if(!hidden.includes(id)){ hidden.push(id); saveHidden(hidden); }
+  renderMarket();
+}
+function sendToTargets(marketId){
+  if(isTargeted(marketId)){ jumpToTab('targets'); return; }
+  const r = allRows().find(x => x.id === marketId);
+  if(!r) return;
+  const list = loadTargets();
+  list.push({
+    id:'ut_'+Date.now(), title:r.title||r.note||r.bio, category:r.category||'기타',
+    priority:'mid', status:'wait',
+    note:`참고: @${r.account} · 조회수 ${fmtN(r.views)} · 돌파배수 ${fmtVFR(r.vfr)}`,
+    sourceId:r.id, sourceLink:`https://www.instagram.com/reel/${r.code}/`, sourceAccount:r.account
+  });
+  saveTargets(list);
+  renderMarket();
+  renderTargets();
+}
+document.getElementById('restoreBtn').addEventListener('click', () => { saveHidden([]); renderMarket(); });
+document.getElementById('sortSel').addEventListener('change', e => { mState.sort = e.target.value; renderMarket(); });
+document.getElementById('searchBox').addEventListener('input', e => { mState.q = e.target.value; renderMarket(); });
+document.getElementById('topicChips').addEventListener('click', e => {
+  if(!e.target.classList.contains('chip')) return;
+  document.querySelectorAll('#topicChips .chip').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  mState.topic = e.target.dataset.topic; renderMarket();
+});
+document.getElementById('catChips').addEventListener('click', e => {
+  if(!e.target.classList.contains('chip')) return;
+  mState.category = e.target.dataset.cat; renderMarket();
+});
+document.querySelectorAll('#fullTable th[data-k]').forEach(th => {
+  th.addEventListener('click', () => { mState.sort = th.dataset.k; document.getElementById('sortSel').value = mState.sort; renderMarket(); });
+});
+
+const modal = document.getElementById('modalOverlay');
+let editingMarketId = null;
+function openMarketModal(editId){
+  document.getElementById('f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  editingMarketId = editId || null;
+  if(editingMarketId){
+    const r = allRows().find(x => x.id === editingMarketId);
+    if(!r) return;
+    document.getElementById('f_account').value = r.account;
+    document.getElementById('f_url').value = `https://www.instagram.com/reel/${r.code}/`;
+    document.getElementById('f_title').value = r.title || '';
+    document.getElementById('f_category').value = r.category || CATEGORIES[0];
+    document.getElementById('f_topic').value = r.topic || 'onTopic';
+    document.getElementById('f_followers').value = r.followers || '';
+    document.getElementById('f_views').value = r.views || '';
+    document.getElementById('f_note').value = r.note || '';
+    document.getElementById('modalTitle').textContent = '영상 수정';
+    document.getElementById('modalSave').textContent = '저장';
+  } else {
+    ['f_account','f_url','f_title','f_followers','f_views','f_note'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('modalTitle').textContent = '영상 추가';
+    document.getElementById('modalSave').textContent = '추가';
+  }
+  modal.classList.add('open');
+}
+document.getElementById('addBtn').addEventListener('click', () => openMarketModal());
+document.getElementById('modalCancel').addEventListener('click', () => modal.classList.remove('open'));
+modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('open'); });
+document.getElementById('modalSave').addEventListener('click', () => {
+  const account = document.getElementById('f_account').value.trim().replace(/^@/,'');
+  const urlRaw = document.getElementById('f_url').value.trim();
+  const title = document.getElementById('f_title').value.trim();
+  if(!account || !urlRaw || !title){ alert('계정명, 릴스 URL, 제목은 필수입니다.'); return; }
+  const code = extractCode(urlRaw);
+  if(!code){ alert('릴스 URL/코드를 확인해주세요.'); return; }
+  const fields = {
+    code, account, title,
+    category: document.getElementById('f_category').value,
+    topic: document.getElementById('f_topic').value,
+    followers: parseInt(document.getElementById('f_followers').value) || 1,
+    views: parseInt(document.getElementById('f_views').value) || 0,
+    note: document.getElementById('f_note').value.trim()
+  };
+  if(editingMarketId){
+    const overrides = loadOverrides();
+    overrides[editingMarketId] = {...(overrides[editingMarketId]||{}), ...fields};
+    saveOverrides(overrides);
+  } else {
+    const custom = loadCustom();
+    custom.push({ id: code + '_' + Date.now(), bio:'', ...fields });
+    saveCustom(custom);
+  }
+  modal.classList.remove('open'); renderMarket();
+});
+
+/* ══════════════════════════════════════════════
+   탭 1: 서치계정
+   ══════════════════════════════════════════════ */
+const LS_SEARCHACCTS = 'igdash_searchaccts_v1';
+function seedSearchAccounts(){
+  const byAccount = {};
+  REELS.forEach(r => {
+    if(!byAccount[r.account]) byAccount[r.account] = { account:r.account, followers:r.followers, category:r.category, note:TOPIC_LABEL[r.topic]||'', id:'seed_'+r.account };
+    else if(r.followers > byAccount[r.account].followers) byAccount[r.account].followers = r.followers;
+  });
+  return Object.values(byAccount);
+}
+function loadSearchAccts(){
+  let raw = localStorage.getItem(LS_SEARCHACCTS);
+  if(!raw){ const seeded = seedSearchAccounts(); localStorage.setItem(LS_SEARCHACCTS, JSON.stringify(seeded)); return seeded; }
+  try{ return JSON.parse(raw); }catch(e){ return []; }
+}
+function saveSearchAccts(list){ localStorage.setItem(LS_SEARCHACCTS, JSON.stringify(list)); }
+
+let saState = { q:'', category:'all' };
+function renderSaCatChips(){
+  const el = document.getElementById('sa_catChips');
+  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${saState.category===c?'active':''}" data-cat="${c}">${c==='all'?'전체':c}</span>`).join('');
+}
+function renderSearchAccounts(){
+  let list = loadSearchAccts();
+  if(saState.category !== 'all') list = list.filter(a => a.category === saState.category);
+  if(saState.q){ const q = saState.q.toLowerCase(); list = list.filter(a => a.account.toLowerCase().includes(q)); }
+  list.sort((a,b) => b.followers - a.followers);
+  document.getElementById('sa_count').textContent = `${list.length}개 표시 중`;
+  renderSaCatChips();
+  document.getElementById('sa_body').innerHTML = list.map(a => `
+    <tr>
+      <td class="acct-cell"><a href="https://www.instagram.com/${a.account}/" target="_blank">@${esc(a.account)}</a></td>
+      <td class="num">${fmtN(a.followers||0)}</td>
+      <td><span class="cat-tag">${esc(a.category||'기타')}</span></td>
+      <td class="note-cell">${esc(a.note||'')}</td>
+      <td><a class="profile-link" href="https://www.instagram.com/${a.account}/" target="_blank">프로필 보기</a></td>
+      <td>
+        <span class="row-actions">
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openSaModal('${a.id}')">✏️ 수정</button>
+          <button class="del-btn" onclick="deleteSearchAcct('${a.id}')">🗑 삭제</button>
+        </span>
+      </td>
+    </tr>`).join('') || `<tr><td colspan="6" class="empty-hint">등록된 계정이 없습니다.</td></tr>`;
+}
+function deleteSearchAcct(id){ saveSearchAccts(loadSearchAccts().filter(a => a.id !== id)); renderSearchAccounts(); }
+document.getElementById('sa_search').addEventListener('input', e => { saState.q = e.target.value; renderSearchAccounts(); });
+document.getElementById('sa_catChips').addEventListener('click', e => { if(!e.target.classList.contains('chip')) return; saState.category = e.target.dataset.cat; renderSearchAccounts(); });
+
+const saModal = document.getElementById('sa_modal');
+let editingSaId = null;
+function openSaModal(editId){
+  document.getElementById('sa_f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  editingSaId = editId || null;
+  if(editingSaId){
+    const a = loadSearchAccts().find(x => x.id === editingSaId);
+    if(!a) return;
+    document.getElementById('sa_f_account').value = a.account;
+    document.getElementById('sa_f_followers').value = a.followers || '';
+    document.getElementById('sa_f_category').value = a.category || CATEGORIES[0];
+    document.getElementById('sa_f_note').value = a.note || '';
+    document.getElementById('sa_modalTitle').textContent = '서치계정 수정';
+    document.getElementById('sa_modalSave').textContent = '저장';
+  } else {
+    ['sa_f_account','sa_f_followers','sa_f_note'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('sa_modalTitle').textContent = '서치계정 추가';
+    document.getElementById('sa_modalSave').textContent = '추가';
+  }
+  saModal.classList.add('open');
+}
+document.getElementById('sa_addBtn').addEventListener('click', () => openSaModal());
+document.getElementById('sa_modalCancel').addEventListener('click', () => saModal.classList.remove('open'));
+saModal.addEventListener('click', e => { if(e.target === saModal) saModal.classList.remove('open'); });
+document.getElementById('sa_modalSave').addEventListener('click', () => {
+  const account = document.getElementById('sa_f_account').value.trim().replace(/^@/,'');
+  if(!account){ alert('계정명은 필수입니다.'); return; }
+  const fields = { account, followers: parseInt(document.getElementById('sa_f_followers').value)||0, category: document.getElementById('sa_f_category').value, note: document.getElementById('sa_f_note').value.trim() };
+  const list = loadSearchAccts();
+  if(editingSaId){
+    const item = list.find(a => a.id === editingSaId);
+    if(item) Object.assign(item, fields);
+  } else {
+    list.push({ id:'sa_'+Date.now(), ...fields });
+  }
+  saveSearchAccts(list); saModal.classList.remove('open'); renderSearchAccounts();
+});
+
+/* ══════════════════════════════════════════════
+   탭 3: 업데이트 대상
+   ══════════════════════════════════════════════ */
+const LS_TARGETS = 'igdash_targets_v1';
+function loadTargets(){ try{ return JSON.parse(localStorage.getItem(LS_TARGETS)) || []; }catch(e){ return []; } }
+function saveTargets(list){ localStorage.setItem(LS_TARGETS, JSON.stringify(list)); }
+const PRIO_LABEL = {high:'높음', mid:'중간', low:'낮음'};
+const PRIO_CLS = {high:'prio-high', mid:'prio-mid', low:'prio-low'};
+const STAT_LABEL = {wait:'대기', progress:'진행중', done:'완료'};
+const STAT_CLS = {wait:'stat-wait', progress:'stat-progress', done:'stat-done'};
+
+let utState = { q:'' };
+function utCardHTML(t){
+  const code = t.sourceLink ? extractCode(t.sourceLink) : null;
+  const embedBlock = code ? `
+    <div class="card-embed" id="ut-embed-${t.id}">
+      <blockquote class="instagram-media" data-instgrm-permalink="${t.sourceLink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
+      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
+      <button class="popup-btn" onclick="window.open('${t.sourceLink}','utPopup_${t.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
+    </div>
+    ${t.sourceAccount ? `
+    <div class="card-account-row">
+      <div class="acct"><a href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">@${esc(t.sourceAccount)}</a></div>
+      <a class="profile-link" href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">프로필 보기</a>
+    </div>` : ''}`
+    : `<div class="card-embed-empty">참고 영상 없음<br>(직접 작성한 아이디어)</div>`;
+  return `
+  <div class="card">
+    <div class="card-head">
+      <div class="card-cats">
+        <span class="cat-tag">${esc(t.category||'기타')}</span>
+        <span class="badge ${PRIO_CLS[t.priority]}">${PRIO_LABEL[t.priority]}</span>
+        <span class="badge ${STAT_CLS[t.status]}">${STAT_LABEL[t.status]}</span>
+      </div>
+      <div class="card-title">${esc(t.title)}</div>
+    </div>
+    ${embedBlock}
+    <div class="card-body">
+      <div class="card-note">${esc(t.note||'')}</div>
+      <div class="card-foot">
+        <select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
+          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${STAT_LABEL[k]}</option>`).join('')}
+        </select>
+        <span>
+          ${isScheduled(t.id)
+            ? `<button class="sent-badge" onclick="jumpToTab('schedule')">✅ 일정추가됨</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendTargetToSchedule('${t.id}')">🗓 일정추가</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openUtModal('${t.id}')">✏️ 수정</button>
+          <button class="del-btn" onclick="deleteTarget('${t.id}')">🗑 삭제</button>
+        </span>
+      </div>
+    </div>
+  </div>`;
+}
+function renderTargetCards(list){
+  const grid = document.getElementById('ut_cardGrid');
+  grid.innerHTML = list.map(utCardHTML).join('') || `<div class="empty-hint">표시할 항목이 없습니다.</div>`;
+  const withEmbed = list.filter(t => t.sourceLink);
+  processEmbeds(withEmbed, 'ut-embed-');
+}
+function renderTargets(){
+  let list = loadTargets();
+  if(utState.q){ const q = utState.q.toLowerCase(); list = list.filter(t => t.title.toLowerCase().includes(q)); }
+  document.getElementById('ut_count').textContent = `${list.length}개 표시 중`;
+  renderTargetCards(list);
+  document.getElementById('ut_body').innerHTML = list.map(t => `
+    <tr>
+      <td><b>${esc(t.title)}</b></td>
+      <td><span class="cat-tag">${esc(t.category||'기타')}</span></td>
+      <td>
+        <select class="inline-select" onchange="updateTargetField('${t.id}','priority',this.value)">
+          ${Object.keys(PRIO_LABEL).map(k => `<option value="${k}" ${t.priority===k?'selected':''}>${PRIO_LABEL[k]}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
+          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${STAT_LABEL[k]}</option>`).join('')}
+        </select>
+      </td>
+      <td class="note-cell">${esc(t.note||'')}${t.sourceLink ? `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">원본보기 ↗</a>` : ''}</td>
+      <td>
+        <span class="row-actions">
+          ${isScheduled(t.id)
+            ? `<button class="sent-badge" onclick="jumpToTab('schedule')">✅ 일정추가됨</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendTargetToSchedule('${t.id}')">🗓 일정추가</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openUtModal('${t.id}')">✏️ 수정</button>
+          <button class="del-btn" onclick="deleteTarget('${t.id}')">🗑 삭제</button>
+        </span>
+      </td>
+    </tr>`).join('') || `<tr><td colspan="6" class="empty-hint">등록된 업데이트 대상이 없습니다.</td></tr>`;
+}
+function updateTargetField(id, field, value){
+  const list = loadTargets();
+  const item = list.find(t => t.id === id);
+  if(item){ item[field] = value; saveTargets(list); renderTargets(); }
+}
+function deleteTarget(id){ saveTargets(loadTargets().filter(t => t.id !== id)); renderTargets(); }
+function sendTargetToSchedule(targetId){
+  if(isScheduled(targetId)){ jumpToTab('schedule'); return; }
+  const t = loadTargets().find(x => x.id === targetId);
+  if(!t) return;
+  jumpToTab('schedule');
+  openScheduleModal({ title:t.title, link:t.sourceLink||'', sourceTargetId:t.id });
+}
+document.getElementById('ut_search').addEventListener('input', e => { utState.q = e.target.value; renderTargets(); });
+
+const utModal = document.getElementById('ut_modal');
+let editingUtId = null;
+function openUtModal(editId){
+  document.getElementById('ut_f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  editingUtId = editId || null;
+  if(editingUtId){
+    const t = loadTargets().find(x => x.id === editingUtId);
+    if(!t) return;
+    document.getElementById('ut_f_title').value = t.title || '';
+    document.getElementById('ut_f_category').value = t.category || CATEGORIES[0];
+    document.getElementById('ut_f_priority').value = t.priority || 'mid';
+    document.getElementById('ut_f_status').value = t.status || 'wait';
+    document.getElementById('ut_f_note').value = t.note || '';
+    document.getElementById('ut_modalTitle').textContent = '업데이트 대상 수정';
+    document.getElementById('ut_modalSave').textContent = '저장';
+  } else {
+    document.getElementById('ut_f_title').value = ''; document.getElementById('ut_f_note').value = '';
+    document.getElementById('ut_f_priority').value = 'mid'; document.getElementById('ut_f_status').value = 'wait';
+    document.getElementById('ut_modalTitle').textContent = '업데이트 대상 추가';
+    document.getElementById('ut_modalSave').textContent = '추가';
+  }
+  utModal.classList.add('open');
+}
+document.getElementById('ut_addBtn').addEventListener('click', () => openUtModal());
+document.getElementById('ut_modalCancel').addEventListener('click', () => utModal.classList.remove('open'));
+utModal.addEventListener('click', e => { if(e.target === utModal) utModal.classList.remove('open'); });
+document.getElementById('ut_modalSave').addEventListener('click', () => {
+  const title = document.getElementById('ut_f_title').value.trim();
+  if(!title){ alert('제목은 필수입니다.'); return; }
+  const fields = { title, category: document.getElementById('ut_f_category').value, priority: document.getElementById('ut_f_priority').value, status: document.getElementById('ut_f_status').value, note: document.getElementById('ut_f_note').value.trim() };
+  const list = loadTargets();
+  if(editingUtId){
+    const item = list.find(t => t.id === editingUtId);
+    if(item) Object.assign(item, fields);
+  } else {
+    list.push({ id:'ut_'+Date.now(), ...fields });
+  }
+  saveTargets(list); utModal.classList.remove('open'); renderTargets();
+});
+
+/* ══════════════════════════════════════════════
+   탭 4: 업데이트 일정 (캘린더)
+   ══════════════════════════════════════════════ */
+const LS_SCHEDULE = 'igdash_schedule_v1';
+function loadSchedule(){ try{ return JSON.parse(localStorage.getItem(LS_SCHEDULE)) || []; }catch(e){ return []; } }
+function saveSchedule(list){ localStorage.setItem(LS_SCHEDULE, JSON.stringify(list)); }
+const pad2 = n => String(n).padStart(2,'0');
+const ymd = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+
+const today = new Date();
+let calState = { year: today.getFullYear(), month: today.getMonth() };
+let scState = { q:'' };
+
+const WEEKDAYS_KO = ['일','월','화','수','목','금','토'];
+(function initWeekdayRow(){
+  document.getElementById('cal_weekdays').innerHTML = WEEKDAYS_KO.map(w => `<div class="cal-weekday">${w}</div>`).join('');
+})();
+
+function buildCalendarCells(){
+  const firstOfMonth = new Date(calState.year, calState.month, 1);
+  const gridStart = new Date(calState.year, calState.month, 1 - firstOfMonth.getDay());
+  const cells = [];
+  for(let i=0;i<42;i++){ cells.push(new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate()+i)); }
+  return cells;
+}
+
+function renderSchedule(){
+  let list = loadSchedule();
+  if(scState.q){ const q = scState.q.toLowerCase(); list = list.filter(s => s.title.toLowerCase().includes(q)); }
+  document.getElementById('sc_count').textContent = `${list.length}개 일정`;
+  document.getElementById('cal_title').textContent = `${calState.year}년 ${calState.month+1}월`;
+
+  const todayStr = ymd(today);
+  const cells = buildCalendarCells();
+  document.getElementById('sc_calendar').innerHTML = cells.map(d => {
+    const dateStr = ymd(d);
+    const outside = d.getMonth() !== calState.month;
+    const isToday = dateStr === todayStr;
+    const events = list.filter(s => s.date === dateStr);
+    return `<div class="cal-cell ${outside?'outside':''} ${isToday?'today':''}">
+      <div class="cal-daynum" onclick="openScheduleModal({date:'${dateStr}'})" title="이 날짜에 일정 추가">${d.getDate()}</div>
+      ${events.map(s => `
+        <div class="cal-event ${STAT_CLS[s.status]}">
+          <span class="cal-ev-dot" title="상태 변경: ${STAT_LABEL[s.status]} (클릭)" onclick="cycleScheduleStatus('${s.id}')">●</span>
+          ${s.link ? `<a class="cal-ev-title" href="${esc(s.link)}" target="_blank" title="${esc(s.title)} — 클릭 시 링크 재생">${esc(s.title)}</a>`
+                    : `<span class="cal-ev-title" title="${esc(s.title)}">${esc(s.title)}</span>`}
+          <button class="cal-ev-del" onclick="editScheduleItem('${s.id}')" title="수정" style="opacity:.55">✎</button>
+          <button class="cal-ev-del" onclick="deleteSchedule('${s.id}')" title="삭제">×</button>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+function updateScheduleField(id, field, value){
+  const list = loadSchedule();
+  const item = list.find(s => s.id === id);
+  if(item){ item[field] = value; saveSchedule(list); renderSchedule(); }
+}
+function cycleScheduleStatus(id){
+  const order = ['wait','progress','done'];
+  const list = loadSchedule();
+  const item = list.find(s => s.id === id);
+  if(item){ item.status = order[(order.indexOf(item.status)+1) % order.length]; saveSchedule(list); renderSchedule(); }
+}
+function deleteSchedule(id){ saveSchedule(loadSchedule().filter(s => s.id !== id)); renderSchedule(); }
+document.getElementById('sc_search').addEventListener('input', e => { scState.q = e.target.value; renderSchedule(); });
+document.getElementById('cal_prev').addEventListener('click', () => {
+  calState.month--; if(calState.month<0){ calState.month=11; calState.year--; } renderSchedule();
+});
+document.getElementById('cal_next').addEventListener('click', () => {
+  calState.month++; if(calState.month>11){ calState.month=0; calState.year++; } renderSchedule();
+});
+document.getElementById('cal_today').addEventListener('click', () => {
+  calState.year = today.getFullYear(); calState.month = today.getMonth(); renderSchedule();
+});
+
+const scModal = document.getElementById('sc_modal');
+let scPendingSourceTargetId = null;
+let editingScId = null;
+function openScheduleModal(prefill){
+  prefill = prefill || {};
+  editingScId = prefill.id || null;
+  document.getElementById('sc_f_date').value = prefill.date || ymd(today);
+  document.getElementById('sc_f_title').value = prefill.title || '';
+  document.getElementById('sc_f_assignee').value = prefill.assignee || '';
+  document.getElementById('sc_f_link').value = prefill.link || '';
+  document.getElementById('sc_f_status').value = prefill.status || 'wait';
+  scPendingSourceTargetId = prefill.sourceTargetId || null;
+  document.getElementById('sc_modalTitle').textContent = editingScId ? '일정 수정' : '업데이트 일정 추가';
+  document.getElementById('sc_modalSave').textContent = editingScId ? '저장' : '추가';
+  scModal.classList.add('open');
+}
+function editScheduleItem(id){
+  const s = loadSchedule().find(x => x.id === id);
+  if(s) openScheduleModal(s);
+}
+document.getElementById('sc_addBtn').addEventListener('click', () => openScheduleModal());
+document.getElementById('sc_modalCancel').addEventListener('click', () => scModal.classList.remove('open'));
+scModal.addEventListener('click', e => { if(e.target === scModal) scModal.classList.remove('open'); });
+document.getElementById('sc_modalSave').addEventListener('click', () => {
+  const date = document.getElementById('sc_f_date').value;
+  const title = document.getElementById('sc_f_title').value.trim();
+  if(!date || !title){ alert('날짜와 제목은 필수입니다.'); return; }
+  const fields = {
+    date, title,
+    assignee: document.getElementById('sc_f_assignee').value.trim(),
+    link: document.getElementById('sc_f_link').value.trim(),
+    status: document.getElementById('sc_f_status').value
+  };
+  const list = loadSchedule();
+  if(editingScId){
+    const item = list.find(s => s.id === editingScId);
+    if(item) Object.assign(item, fields);
+  } else {
+    list.push({ id:'sc_'+Date.now(), ...fields, sourceTargetId: scPendingSourceTargetId });
+  }
+  saveSchedule(list); scModal.classList.remove('open');
+  calState.year = parseInt(date.slice(0,4)); calState.month = parseInt(date.slice(5,7))-1;
+  renderSchedule();
+  if(scPendingSourceTargetId) renderTargets();
+});
+
+/* ══════════ 초기 렌더 ══════════ */
+renderMarket();
+renderSearchAccounts();
+renderTargets();
+renderSchedule();
+</script>
+<script async src="//www.instagram.com/embed.js"></script>
+</body>
+</html>
