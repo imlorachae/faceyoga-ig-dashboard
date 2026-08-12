@@ -359,7 +359,11 @@
     <div class="field"><label>날짜 <span class="req">*</span></label><input type="date" id="sc_f_date"></div>
     <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="sc_f_title" placeholder="예: 두피 마사지 릴스 업로드"></div>
     <div class="field"><label>담당자</label><input type="text" id="sc_f_assignee" placeholder="예: 정민"></div>
-    <div class="field"><label>참고 링크</label><input type="text" id="sc_f_link" placeholder="https://www.instagram.com/reel/..."></div>
+    <div class="field"><label>플랫폼</label>
+      <select id="sc_f_platform"><option value="instagram" selected>인스타그램</option><option value="youtube">유튜브</option><option value="tiktok">틱톡</option></select>
+    </div>
+    <div class="field"><label>게시물 링크</label><input type="text" id="sc_f_link" placeholder="https://www.instagram.com/reel/... 또는 유튜브/틱톡 링크"></div>
+    <div class="field"><label>원본 파일 위치</label><input type="text" id="sc_f_sourcefile" placeholder="캡컷 프로젝트 링크, 드랍박스 폴더 링크 등"></div>
     <div class="field"><label>상태</label>
       <select id="sc_f_status"><option value="wait" selected>예정</option><option value="progress">진행중</option><option value="done">완료</option></select>
     </div>
@@ -946,23 +950,47 @@ function updateDoneField(id, field, value){
   const item = list.find(s => s.id === id);
   if(item){ item[field] = value; saveSchedule(list); }
 }
-function doneCardHTML(s){
-  const code = s.link ? extractCode(s.link) : null;
-  const embedBlock = code ? `
+const PLATFORM_LABEL = {instagram:'📷 인스타그램', youtube:'▶️ 유튜브', tiktok:'🎵 틱톡'};
+function extractYouTubeId(input){
+  input = input.trim();
+  const m = input.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]+)/);
+  return m ? m[1] : null;
+}
+function doneEmbedHTML(s){
+  const platform = s.platform || 'instagram';
+  if(!s.link) return `<div class="card-embed-empty">연결된 링크 없음</div>`;
+  if(platform === 'youtube'){
+    const yid = extractYouTubeId(s.link);
+    return yid ? `
+    <div class="card-embed" id="done-embed-${s.id}">
+      <iframe src="https://www.youtube.com/embed/${yid}" style="width:100%;height:100%;border:0" allowfullscreen></iframe>
+    </div>` : `<div class="card-embed-empty">유튜브 링크를 확인해주세요</div>`;
+  }
+  if(platform === 'tiktok'){
+    return `
+    <div class="card-embed" id="done-embed-${s.id}">
+      <blockquote class="tiktok-embed" cite="${s.link}" style="width:100%;height:100%;margin:0;"><section></section></blockquote>
+      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
+      <button class="popup-btn" onclick="window.open('${s.link}','donePopup_${s.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
+    </div>`;
+  }
+  return `
     <div class="card-embed" id="done-embed-${s.id}">
       <blockquote class="instagram-media" data-instgrm-permalink="${s.link}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
       <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
       <button class="popup-btn" onclick="window.open('${s.link}','donePopup_${s.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
-    </div>` : `<div class="card-embed-empty">연결된 링크 없음</div>`;
+    </div>`;
+}
+function doneCardHTML(s){
   const target = s.sourceTargetId ? loadTargets().find(t => t.id === s.sourceTargetId) : null;
   const refLink = target && target.sourceLink;
   return `
   <div class="card">
     <div class="card-head">
-      <div class="card-cats"><span class="cat-tag">${esc(s.date||'')}</span></div>
+      <div class="card-cats"><span class="cat-tag">${esc(s.date||'')}</span><span class="cat-tag">${PLATFORM_LABEL[s.platform||'instagram']}</span></div>
       <div class="card-title">${esc(s.title)}</div>
     </div>
-    ${embedBlock}
+    ${doneEmbedHTML(s)}
     <div class="card-body">
       <div class="done-metrics">
         <label>❤️ 좋아요 <input type="number" class="inline-num" value="${s.likes ?? ''}" placeholder="0" onchange="updateDoneField('${s.id}','likes',this.value)"></label>
@@ -972,6 +1000,7 @@ function doneCardHTML(s){
         ${s.link ? `<a class="src-link" href="${esc(s.link)}" target="_blank">게시물 보기 ↗</a>` : '<span></span>'}
         <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="editScheduleItem('${s.id}')">✏️ 링크/일정 수정</button>
       </div>
+      ${s.sourceFile ? `<div class="card-note">📁 원본 파일: ${/^https?:\/\//.test(s.sourceFile) ? `<a class="src-link" href="${esc(s.sourceFile)}" target="_blank">${esc(s.sourceFile)} ↗</a>` : esc(s.sourceFile)}</div>` : ''}
       ${refLink ? `<div class="card-note">🔗 참고했던 원본: <a class="src-link" href="${esc(refLink)}" target="_blank">${target.sourceAccount ? '@'+esc(target.sourceAccount) : '원본 영상'} ↗</a></div>` : ''}
     </div>
   </div>`;
@@ -983,7 +1012,10 @@ function renderDone(){
   document.getElementById('done_count').textContent = `${list.length}개 표시 중`;
   const grid = document.getElementById('done_cardGrid');
   grid.innerHTML = list.map(doneCardHTML).join('') || `<div class="empty-hint">완료 상태인 업데이트가 없습니다. 업데이트 일정 탭에서 상태를 '완료'로 바꿔주세요.</div>`;
-  processEmbeds(list.filter(s => s.link), 'done-embed-');
+  processEmbeds(list.filter(s => s.link && (s.platform||'instagram') === 'instagram'), 'done-embed-');
+  if(window.tiktokEmbed && window.tiktokEmbed.lib && window.tiktokEmbed.lib.render){
+    try{ window.tiktokEmbed.lib.render(document.getElementById('done_cardGrid')); }catch(e){}
+  }
 }
 document.getElementById('done_search').addEventListener('input', e => { doneState.q = e.target.value; renderDone(); });
 document.getElementById('cal_prev').addEventListener('click', () => {
@@ -1005,7 +1037,9 @@ function openScheduleModal(prefill){
   document.getElementById('sc_f_date').value = prefill.date || ymd(today);
   document.getElementById('sc_f_title').value = prefill.title || '';
   document.getElementById('sc_f_assignee').value = prefill.assignee || '';
+  document.getElementById('sc_f_platform').value = prefill.platform || 'instagram';
   document.getElementById('sc_f_link').value = prefill.link || '';
+  document.getElementById('sc_f_sourcefile').value = prefill.sourceFile || '';
   document.getElementById('sc_f_status').value = prefill.status || 'wait';
   scPendingSourceTargetId = prefill.sourceTargetId || null;
   document.getElementById('sc_modalTitle').textContent = editingScId ? '일정 수정' : '업데이트 일정 추가';
@@ -1026,7 +1060,9 @@ document.getElementById('sc_modalSave').addEventListener('click', () => {
   const fields = {
     date, title,
     assignee: document.getElementById('sc_f_assignee').value.trim(),
+    platform: document.getElementById('sc_f_platform').value,
     link: document.getElementById('sc_f_link').value.trim(),
+    sourceFile: document.getElementById('sc_f_sourcefile').value.trim(),
     status: document.getElementById('sc_f_status').value
   };
   const list = loadSchedule();
@@ -1051,5 +1087,6 @@ renderSchedule();
 renderDone();
 </script>
 <script async src="//www.instagram.com/embed.js"></script>
+<script async src="https://www.tiktok.com/embed.js"></script>
 </body>
 </html>
