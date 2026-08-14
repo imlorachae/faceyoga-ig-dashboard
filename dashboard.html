@@ -104,6 +104,11 @@
   .platform-section{border-top:1px solid var(--border);padding:10px 14px}
   .platform-section:first-of-type{border-top:none}
   .platform-section-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;margin-bottom:6px}
+  .thumb-cell{width:56px}
+  .row-thumb{width:40px;height:40px;border-radius:6px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
+  .row-thumb:hover{background:var(--blue-dark)}
+  tr.row-done{opacity:.55}
+  tr.row-done td{filter:grayscale(40%)}
   .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-block}
   .prio-high{background:#fef2f2;color:var(--explode)}
   .prio-mid{background:#fff7ed;color:var(--break)}
@@ -262,7 +267,7 @@
 
     <h2 class="section">📋 전체 목록</h2>
     <table id="ut_table">
-      <thead><tr><th>제목</th><th>부위</th><th>우선순위</th><th>상태</th><th>참고/메모</th><th>관리</th></tr></thead>
+      <thead><tr><th>썸네일</th><th>제목</th><th>부위</th><th>우선순위</th><th>상태</th><th>참고/메모</th><th>관리</th></tr></thead>
       <tbody id="ut_body"></tbody>
     </table>
   </section>
@@ -792,8 +797,13 @@ function renderTargets(){
   if(utState.q){ const q = utState.q.toLowerCase(); list = list.filter(t => t.title.toLowerCase().includes(q)); }
   document.getElementById('ut_count').textContent = `${list.length}개 표시 중`;
   renderTargetCards(list);
-  document.getElementById('ut_body').innerHTML = list.map(t => `
-    <tr>
+  const sortedForTable = [...list].sort((a,b) => (a.status==='done'?1:0) - (b.status==='done'?1:0));
+  document.getElementById('ut_body').innerHTML = sortedForTable.map(t => {
+    const code = t.sourceLink ? extractCode(t.sourceLink) : null;
+    return `
+    <tr class="${t.status==='done' ? 'row-done' : ''}">
+      <td class="thumb-cell">${code ? `
+        <div class="row-thumb" onclick="window.open('${t.sourceLink}','utThumbPopup_${t.id}','width=420,height=760')" title="클릭해서 재생">▶</div>` : ''}</td>
       <td><b>${esc(t.title)}</b></td>
       <td><span class="cat-tag">${esc(t.category||'기타')}</span></td>
       <td>
@@ -816,7 +826,8 @@ function renderTargets(){
           <button class="del-btn" onclick="deleteTarget('${t.id}')">🗑 삭제</button>
         </span>
       </td>
-    </tr>`).join('') || `<tr><td colspan="6" class="empty-hint">등록된 업데이트 대상이 없습니다.</td></tr>`;
+    </tr>`;
+  }).join('') || `<tr><td colspan="7" class="empty-hint">등록된 업데이트 대상이 없습니다.</td></tr>`;
 }
 function updateTargetField(id, field, value){
   const list = loadTargets();
