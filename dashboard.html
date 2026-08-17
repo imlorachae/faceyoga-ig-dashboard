@@ -99,8 +99,8 @@
   .row-actions{display:flex;gap:6px}
   select.inline-select{border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:12px;font-family:inherit;background:#fff}
   input.inline-num{border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:12px;font-family:inherit;background:#fff;width:70px}
-  .done-metrics{display:flex;gap:16px;align-items:center;margin:8px 0}
-  .done-metrics label{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--sub)}
+  .done-metrics{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:8px 0}
+  .done-metrics label{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--sub);white-space:nowrap}
   .platform-section{border-top:1px solid var(--border);padding:10px 14px}
   .platform-section:first-of-type{border-top:none}
   .platform-section-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;margin-bottom:6px}
@@ -963,32 +963,13 @@ function updateDoneField(id, field, value){
   const item = list.find(s => s.id === id);
   if(item){ item[field] = value; saveSchedule(list); }
 }
+const METRIC_LABEL = {likes:'❤️ 좋아요', comments:'💬 댓글', saves:'🔖 저장', shares:'🔁 공유'};
 const PLATFORMS = [
-  {key:'instagram', label:'📷 인스타그램', linkField:'linkInstagram'},
-  {key:'youtube', label:'▶️ 유튜브', linkField:'linkYoutube'},
-  {key:'tiktok', label:'🎵 틱톡', linkField:'linkTiktok'}
+  {key:'instagram', label:'📷 인스타그램', linkField:'linkInstagram', hasEmbed:true, metrics:['likes','comments','saves','shares']},
+  {key:'youtube', label:'▶️ 유튜브', linkField:'linkYoutube', hasEmbed:false, metrics:['likes','saves','shares']},
+  {key:'tiktok', label:'🎵 틱톡', linkField:'linkTiktok', hasEmbed:false, metrics:['likes','saves','shares']}
 ];
-function extractYouTubeId(input){
-  input = input.trim();
-  const m = input.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]+)/);
-  return m ? m[1] : null;
-}
 function platformEmbedHTML(platformKey, link, embedId){
-  if(platformKey === 'youtube'){
-    const yid = extractYouTubeId(link);
-    return yid ? `
-    <div class="card-embed" id="${embedId}">
-      <iframe src="https://www.youtube.com/embed/${yid}" style="width:100%;height:100%;border:0" allowfullscreen></iframe>
-    </div>` : `<div class="card-embed-empty">유튜브 링크를 확인해주세요</div>`;
-  }
-  if(platformKey === 'tiktok'){
-    return `
-    <div class="card-embed" id="${embedId}">
-      <blockquote class="tiktok-embed" cite="${link}" style="width:100%;height:100%;margin:0;"><section></section></blockquote>
-      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
-      <button class="popup-btn" onclick="window.open('${link}','donePopup_${embedId}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
-    </div>`;
-  }
   return `
     <div class="card-embed" id="${embedId}">
       <blockquote class="instagram-media" data-instgrm-permalink="${link}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
@@ -1000,15 +981,15 @@ function platformSectionHTML(s, p){
   const link = s[p.linkField];
   if(!link) return '';
   const embedId = `done-embed-${p.key}-${s.id}`;
-  const likesField = `likes_${p.key}`, commentsField = `comments_${p.key}`;
+  const metricsHTML = p.metrics.map(m => {
+    const field = `${m}_${p.key}`;
+    return `<label>${METRIC_LABEL[m]} <input type="number" class="inline-num" value="${s[field] ?? ''}" placeholder="0" onchange="updateDoneField('${s.id}','${field}',this.value)"></label>`;
+  }).join('');
   return `
   <div class="platform-section">
     <div class="platform-section-head">${p.label}<a class="src-link" href="${esc(link)}" target="_blank">게시물 보기 ↗</a></div>
-    ${platformEmbedHTML(p.key, link, embedId)}
-    <div class="done-metrics">
-      <label>❤️ 좋아요 <input type="number" class="inline-num" value="${s[likesField] ?? ''}" placeholder="0" onchange="updateDoneField('${s.id}','${likesField}',this.value)"></label>
-      <label>💬 댓글 <input type="number" class="inline-num" value="${s[commentsField] ?? ''}" placeholder="0" onchange="updateDoneField('${s.id}','${commentsField}',this.value)"></label>
-    </div>
+    ${p.hasEmbed ? platformEmbedHTML(p.key, link, embedId) : ''}
+    <div class="done-metrics">${metricsHTML}</div>
   </div>`;
 }
 function doneCardHTML(s){
@@ -1040,9 +1021,6 @@ function renderDone(){
   grid.innerHTML = list.map(doneCardHTML).join('') || `<div class="empty-hint">완료 상태인 업데이트가 없습니다. 업데이트 일정 탭에서 상태를 '완료'로 바꿔주세요.</div>`;
   const igItems = list.filter(s => s.linkInstagram).map(s => ({...s, id:`instagram-${s.id}`, link: s.linkInstagram}));
   processEmbeds(igItems, 'done-embed-');
-  if(window.tiktokEmbed && window.tiktokEmbed.lib && window.tiktokEmbed.lib.render){
-    try{ window.tiktokEmbed.lib.render(document.getElementById('done_cardGrid')); }catch(e){}
-  }
 }
 document.getElementById('done_search').addEventListener('input', e => { doneState.q = e.target.value; renderDone(); });
 document.getElementById('cal_prev').addEventListener('click', () => {
@@ -1116,6 +1094,5 @@ renderSchedule();
 renderDone();
 </script>
 <script async src="//www.instagram.com/embed.js"></script>
-<script async src="https://www.tiktok.com/embed.js"></script>
 </body>
 </html>
