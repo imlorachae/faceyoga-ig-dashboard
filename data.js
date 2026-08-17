@@ -52,6 +52,8 @@ const REELS = [
   { account:'aylenpark', followers:1693000, code:'DbHoUIKin8w', views:7629000, bio:'모녀 뷰티/여행 브이로그', topic:'general', category:'스킨케어', title:'모녀 뷰티 브이로그', note:'' },
   { account:'dermatologysurgeon', followers:2260000, code:'DayJZ2kRlni', views:4784000, bio:'Dr. Neera Nathan · 하버드 피부과 전문의', topic:'off', category:'기타', title:'피부과 전문의 팁 (주제 무관)', note:'⚠️ 의료 시술/피부과 — 셀프케어 아님' },
   { account:'alessa', followers:420000, code:'DbjtPxpNXwk', views:1212000, bio:'뷰티·요리 라이프스타일', topic:'general', category:'스킨케어', title:'뷰티·라이프스타일 브이로그', note:'' },
+  { account:'coco_vely1229', followers:286000, code:'DbanPK-hUuU', views:116000, bio:'라히코 RAHEECO · K-FaceYoga Expert', topic:'onTopic', category:'리프팅', title:'99%가 모르는 팔자주름 없애는 방법', note:'Nasolabial folds — 순서가 있는 팔자주름 관리법' },
+  { account:'wellness_baum', followers:2063, code:'DYWz5kDTJ-Q', views:145000, bio:'바움 동안관리 연구소 · 홈 프라이빗 헬스 에스테틱 스파', topic:'onTopic', category:'리프팅', title:'시술없이 10살 어려지는 팔자주름 관리법', note:'Nasolabial folds 2 — 신규 계정, VFR 70배 폭발돌파 (팔로워 2,063명)' },
 ];
 
 REELS.forEach(r => r.id = r.code);
