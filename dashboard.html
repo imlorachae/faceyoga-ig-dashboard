@@ -101,6 +101,8 @@
   input.inline-num{border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:12px;font-family:inherit;background:#fff;width:70px}
   .done-metrics{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:8px 0}
   .done-metrics label{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--sub);white-space:nowrap}
+  .done-tag{background:#fee2e2;color:#dc2626;font-weight:700;font-size:11px;padding:2px 7px;border-radius:5px;margin-left:6px}
+  .card-embed-done{filter:grayscale(100%);opacity:.6}
   .platform-section{border-top:1px solid var(--border);padding:10px 14px}
   .platform-section:first-of-type{border-top:none}
   .platform-section-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;margin-bottom:6px}
@@ -392,6 +394,7 @@ function extractCode(input){
 }
 function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function isTargeted(marketId){ return loadTargets().some(t => t.sourceId === marketId); }
+function isMarketDone(marketId){ return loadTargets().some(t => t.sourceId === marketId && t.status === 'done'); }
 function isScheduled(targetId){ return loadSchedule().some(s => s.sourceTargetId === targetId); }
 
 /* ══════════ 탭 전환 ══════════ */
@@ -456,13 +459,14 @@ function applyMarketFilters(){
 function cardHTML(r){
   const t = tierOf(r.vfr);
   const permalink = `https://www.instagram.com/reel/${r.code}/`;
+  const done = isMarketDone(r.id);
   return `
   <div class="card">
     <div class="card-head">
-      <div class="card-cats"><span class="cat-tag">${esc(r.category || '기타')}</span></div>
+      <div class="card-cats"><span class="cat-tag">${esc(r.category || '기타')}</span>${done ? '<span class="done-tag">✅ 완료</span>' : ''}</div>
       <div class="card-title">${esc(r.title || r.note || r.bio)}</div>
     </div>
-    <div class="card-embed" id="embed-${r.id}">
+    <div class="card-embed ${done ? 'card-embed-done' : ''}" id="embed-${r.id}">
       <blockquote class="instagram-media" data-instgrm-permalink="${permalink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
       <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
       <button class="popup-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
@@ -746,7 +750,7 @@ const STAT_CLS = {wait:'stat-wait', progress:'stat-progress', done:'stat-done'};
 let utState = { q:'' };
 function utCardHTML(t){
   const code = t.sourceLink ? extractCode(t.sourceLink) : null;
-  const embedBlock = code ? `
+  const embedBlock = t.status === 'done' ? '' : (code ? `
     <div class="card-embed" id="ut-embed-${t.id}">
       <blockquote class="instagram-media" data-instgrm-permalink="${t.sourceLink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
       <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
@@ -757,7 +761,7 @@ function utCardHTML(t){
       <div class="acct"><a href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">@${esc(t.sourceAccount)}</a></div>
       <a class="profile-link" href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">프로필 보기</a>
     </div>` : ''}`
-    : `<div class="card-embed-empty">참고 영상 없음<br>(직접 작성한 아이디어)</div>`;
+    : `<div class="card-embed-empty">참고 영상 없음<br>(직접 작성한 아이디어)</div>`);
   return `
   <div class="card">
     <div class="card-head">
@@ -789,7 +793,7 @@ function utCardHTML(t){
 function renderTargetCards(list){
   const grid = document.getElementById('ut_cardGrid');
   grid.innerHTML = list.map(utCardHTML).join('') || `<div class="empty-hint">표시할 항목이 없습니다.</div>`;
-  const withEmbed = list.filter(t => t.sourceLink);
+  const withEmbed = list.filter(t => t.sourceLink && t.status !== 'done');
   processEmbeds(withEmbed, 'ut-embed-');
 }
 function renderTargets(){
