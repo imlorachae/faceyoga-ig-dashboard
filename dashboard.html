@@ -407,7 +407,13 @@ function extractCode(input){
 }
 function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function isTargeted(marketId){ return loadTargets().some(t => t.sourceId === marketId); }
-function isMarketDone(marketId){ return loadTargets().some(t => t.sourceId === marketId && t.status === 'done'); }
+function isMarketDone(marketId){
+  const target = loadTargets().find(t => t.sourceId === marketId);
+  if(!target) return false;
+  if(target.status === 'done') return true;
+  const sched = getScheduleForTarget(target.id);
+  return sched ? sched.status === 'done' : false;
+}
 function isScheduled(targetId){ return loadSchedule().some(s => (s.sourceTargetIds||[]).includes(targetId)); }
 function getScheduleForTarget(targetId){ return loadSchedule().find(s => (s.sourceTargetIds||[]).includes(targetId)) || null; }
 function getMarketScheduleInfo(marketId){
@@ -474,6 +480,7 @@ function applyMarketFilters(){
   }
   const sorters = { vfr:(a,b)=>b.vfr-a.vfr, views:(a,b)=>b.views-a.views, followers:(a,b)=>b.followers-a.followers, account:(a,b)=>a.account.localeCompare(b.account) };
   list.sort(sorters[mState.sort]);
+  list.sort((a,b) => (isMarketDone(a.id)?1:0) - (isMarketDone(b.id)?1:0));
   return list;
 }
 function cardHTML(r){
