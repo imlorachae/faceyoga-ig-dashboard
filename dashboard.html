@@ -563,7 +563,8 @@ const UI = {
   save: {ko:'저장', en:'Save'}, add: {ko:'추가', en:'Add'},
   editAccount: {ko:'서치계정 수정', en:'Edit account'}, addAccount: {ko:'서치계정 추가', en:'Add account'},
   editTarget: {ko:'업데이트 대상 수정', en:'Edit target'}, addTarget: {ko:'업데이트 대상 추가', en:'Add target'},
-  editSchedule: {ko:'일정 수정', en:'Edit schedule'}, addSchedule: {ko:'업데이트 일정 추가', en:'Add schedule'}
+  editSchedule: {ko:'일정 수정', en:'Edit schedule'}, addSchedule: {ko:'업데이트 일정 추가', en:'Add schedule'},
+  syncedFromSchedule: {ko:'연결된 일정 상태로 자동 동기화됨 — 일정 탭에서 상태를 바꿔주세요', en:'Auto-synced from the linked schedule — change status in the Schedule tab'}
 };
 function u(key){ return (UI[key] && UI[key][currentLang]) || (UI[key] && UI[key].ko) || key; }
 function itemsShown(n){ return currentLang === 'en' ? `${n} shown` : `${n}개 표시 중`; }
@@ -641,8 +642,7 @@ function cardHTML(r){
       <div class="card-cats"><span class="cat-tag">${esc(catLabel(r.category))}</span>${done ? `<span class="done-tag">${u('doneTag')}</span>` : ''}${schedInfo ? `<span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${statLabel(schedInfo.status)}</span>` : ''}</div>
       <div class="card-title">${esc(r.title || r.note || r.bio)}</div>
     </div>
-    <div class="card-embed ${done ? 'card-embed-done' : ''}" id="embed-${r.id}">
-      <blockquote class="instagram-media" data-instgrm-permalink="${permalink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
+    <div class="card-embed lazy-embed ${done ? 'card-embed-done' : ''}" id="embed-${r.id}" data-permalink="${permalink}">
       <div class="card-fallback" style="display:none"><span>${u('embedFailed')}</span></div>
       <button class="popup-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')" title="${u('playPopup')}">${u('play')}</button>
     </div>
@@ -673,18 +673,40 @@ function cardHTML(r){
 function renderCards(list){
   const grid = document.getElementById('cardGrid');
   grid.innerHTML = list.map(cardHTML).join('') || `<div class="empty-hint">${u('noItems')}</div>`;
-  processEmbeds(list);
+  setupLazyEmbeds();
 }
-function processEmbeds(list, idPrefix){
-  idPrefix = idPrefix || 'embed-';
+let lazyEmbedObserver = null;
+function getLazyEmbedObserver(){
+  if(lazyEmbedObserver) return lazyEmbedObserver;
+  lazyEmbedObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(!entry.isIntersecting) return;
+      lazyEmbedObserver.unobserve(entry.target);
+      loadLazyEmbed(entry.target);
+    });
+  }, { rootMargin: '400px 0px' });
+  return lazyEmbedObserver;
+}
+function setupLazyEmbeds(){
+  const observer = getLazyEmbedObserver();
+  document.querySelectorAll('.lazy-embed:not([data-observed])').forEach(el => {
+    el.dataset.observed = '1';
+    observer.observe(el);
+  });
+}
+function loadLazyEmbed(el){
+  if(el.dataset.loaded) return;
+  el.dataset.loaded = '1';
+  const permalink = el.dataset.permalink;
+  el.insertAdjacentHTML('afterbegin', `<blockquote class="instagram-media" data-instgrm-permalink="${permalink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>`);
   let attempts = 0;
   const tryProcess = () => {
     attempts++;
     if(window.instgrm && window.instgrm.Embeds){ window.instgrm.Embeds.process(); }
     setTimeout(() => {
-      const missing = list.filter(r => { const el = document.getElementById(`${idPrefix}${r.id}`); return el && !el.querySelector('iframe'); });
-      if(missing.length && attempts < 6){ tryProcess(); }
-      else { missing.forEach(r => { const el = document.getElementById(`${idPrefix}${r.id}`); const fb = el && el.querySelector('.card-fallback'); if(fb) fb.style.display = 'flex'; }); }
+      if(el.querySelector('iframe')) return;
+      if(attempts < 6){ tryProcess(); }
+      else { const fb = el.querySelector('.card-fallback'); if(fb) fb.style.display = 'flex'; }
     }, 1200);
   };
   tryProcess();
@@ -924,14 +946,18 @@ const PRIO_LABEL = {high:'높음', mid:'중간', low:'낮음'};
 const PRIO_CLS = {high:'prio-high', mid:'prio-mid', low:'prio-low'};
 const STAT_LABEL = {wait:'대기', progress:'진행중', done:'완료'};
 const STAT_CLS = {wait:'stat-wait', progress:'stat-progress', done:'stat-done'};
+function effectiveTargetStatus(t){
+  const sched = getScheduleForTarget(t.id);
+  return sched ? sched.status : t.status;
+}
 
 let utState = { q:'' };
 function utCardHTML(t){
   const code = t.sourceLink ? extractCode(t.sourceLink) : null;
   const schedInfo = getScheduleForTarget(t.id);
-  const embedBlock = t.status === 'done' ? '' : (code ? `
-    <div class="card-embed" id="ut-embed-${t.id}">
-      <blockquote class="instagram-media" data-instgrm-permalink="${t.sourceLink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
+  const effStatus = effectiveTargetStatus(t);
+  const embedBlock = effStatus === 'done' ? '' : (code ? `
+    <div class="card-embed lazy-embed" id="ut-embed-${t.id}" data-permalink="${t.sourceLink}">
       <div class="card-fallback" style="display:none"><span>${u('embedFailed')}</span></div>
       <button class="popup-btn" onclick="window.open('${t.sourceLink}','utPopup_${t.id}','width=420,height=760')" title="${u('playPopup')}">${u('play')}</button>
     </div>
@@ -947,7 +973,7 @@ function utCardHTML(t){
       <div class="card-cats">
         <span class="cat-tag">${esc(catLabel(t.category))}</span>
         <span class="badge ${PRIO_CLS[t.priority]}">${prioLabel(t.priority)}</span>
-        <span class="badge ${STAT_CLS[t.status]}">${statLabel(t.status)}</span>
+        <span class="badge ${STAT_CLS[effStatus]}">${statLabel(effStatus)}</span>
         ${schedInfo ? `<span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${statLabel(schedInfo.status)}</span>` : ''}
       </div>
       <div class="card-title">${esc(t.title)}</div>
@@ -956,9 +982,11 @@ function utCardHTML(t){
     <div class="card-body">
       <div class="card-note">${esc(t.note||'')}</div>
       <div class="card-foot">
-        <select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
-          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${statLabel(k)}</option>`).join('')}
-        </select>
+        ${schedInfo
+          ? `<span class="badge ${STAT_CLS[effStatus]}" title="${u('syncedFromSchedule')}">🔗 ${statLabel(effStatus)}</span>`
+          : `<select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
+              ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${statLabel(k)}</option>`).join('')}
+            </select>`}
         <span>
           ${isScheduled(t.id)
             ? `<button class="sent-badge" onclick="jumpToTab('schedule')">${u('scheduleAdded')}</button>`
@@ -973,20 +1001,20 @@ function utCardHTML(t){
 function renderTargetCards(list){
   const grid = document.getElementById('ut_cardGrid');
   grid.innerHTML = list.map(utCardHTML).join('') || `<div class="empty-hint">${u('noItems')}</div>`;
-  const withEmbed = list.filter(t => t.sourceLink && t.status !== 'done');
-  processEmbeds(withEmbed, 'ut-embed-');
+  setupLazyEmbeds();
 }
 function renderTargets(){
   let list = loadTargets();
   if(utState.q){ const q = utState.q.toLowerCase(); list = list.filter(t => t.title.toLowerCase().includes(q)); }
   document.getElementById('ut_count').textContent = itemsShown(list.length);
   renderTargetCards(list);
-  const sortedForTable = [...list].sort((a,b) => (a.status==='done'?1:0) - (b.status==='done'?1:0));
+  const sortedForTable = [...list].sort((a,b) => (effectiveTargetStatus(a)==='done'?1:0) - (effectiveTargetStatus(b)==='done'?1:0));
   document.getElementById('ut_body').innerHTML = sortedForTable.map(t => {
     const code = t.sourceLink ? extractCode(t.sourceLink) : null;
     const schedInfo = getScheduleForTarget(t.id);
+    const effStatus = effectiveTargetStatus(t);
     return `
-    <tr class="${t.status==='done' ? 'row-done' : ''}">
+    <tr class="${effStatus==='done' ? 'row-done' : ''}">
       <td class="thumb-cell">${code ? `
         <div class="row-thumb" onclick="window.open('${t.sourceLink}','utThumbPopup_${t.id}','width=420,height=760')" title="${u('clickToPlay')}">▶</div>` : ''}</td>
       <td><b>${esc(t.title)}</b>${schedInfo ? `<br><span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${statLabel(schedInfo.status)}</span>` : ''}</td>
@@ -997,9 +1025,11 @@ function renderTargets(){
         </select>
       </td>
       <td>
-        <select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
-          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${statLabel(k)}</option>`).join('')}
-        </select>
+        ${schedInfo
+          ? `<span class="badge ${STAT_CLS[effStatus]}" title="${u('syncedFromSchedule')}">🔗 ${statLabel(effStatus)}</span>`
+          : `<select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
+              ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${statLabel(k)}</option>`).join('')}
+            </select>`}
       </td>
       <td class="note-cell">${esc(t.note||'')}${t.sourceLink ? `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">${u('viewOriginal')}</a>` : ''}</td>
       <td>
@@ -1160,8 +1190,7 @@ const PLATFORMS = [
 ];
 function platformEmbedHTML(platformKey, link, embedId){
   return `
-    <div class="card-embed" id="${embedId}">
-      <blockquote class="instagram-media" data-instgrm-permalink="${link}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
+    <div class="card-embed lazy-embed" id="${embedId}" data-permalink="${link}">
       <div class="card-fallback" style="display:none"><span>${u('embedFailed')}</span></div>
       <button class="popup-btn" onclick="window.open('${link}','donePopup_${embedId}','width=420,height=760')" title="${u('playPopup')}">${u('play')}</button>
     </div>`;
@@ -1209,8 +1238,7 @@ function renderDone(){
   document.getElementById('done_count').textContent = itemsShown(list.length);
   const grid = document.getElementById('done_cardGrid');
   grid.innerHTML = list.map(doneCardHTML).join('') || `<div class="empty-hint">${u('noDoneUpdates')}</div>`;
-  const igItems = list.filter(s => s.linkInstagram).map(s => ({...s, id:`instagram-${s.id}`, link: s.linkInstagram}));
-  processEmbeds(igItems, 'done-embed-');
+  setupLazyEmbeds();
 }
 document.getElementById('done_search').addEventListener('input', e => { doneState.q = e.target.value; renderDone(); });
 document.getElementById('cal_prev').addEventListener('click', () => {
