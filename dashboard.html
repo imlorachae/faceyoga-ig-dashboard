@@ -103,6 +103,11 @@
   .done-metrics label{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--sub);white-space:nowrap}
   .done-tag{background:#fee2e2;color:#dc2626;font-weight:700;font-size:11px;padding:2px 7px;border-radius:5px;margin-left:6px}
   .card-embed-done{filter:grayscale(100%);opacity:.6}
+  .linked-refs-list{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:8px}
+  .linked-refs-list .ref-row{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;gap:8px}
+  .linked-refs-list .ref-row a{color:var(--blue)}
+  .linked-refs-list .ref-remove{cursor:pointer;color:#dc2626;font-size:11px;background:none;border:none;padding:2px 5px}
+  .sched-date-tag{background:#eff6ff;color:var(--blue-dark);font-weight:700;font-size:11px;padding:2px 7px;border-radius:5px;margin-left:6px}
   .platform-section{border-top:1px solid var(--border);padding:10px 14px}
   .platform-section:first-of-type{border-top:none}
   .platform-section-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;margin-bottom:6px}
@@ -366,6 +371,14 @@
 <div class="modal-overlay" id="sc_modal">
   <div class="modal">
     <h3 id="sc_modalTitle">업데이트 일정 추가</h3>
+    <div class="field" id="sc_f_linkTarget_wrap" style="display:none">
+      <label>📎 이 참고 영상을 연결할 일정</label>
+      <select id="sc_f_linkTarget"></select>
+    </div>
+    <div class="field" id="sc_linkedRefs_wrap" style="display:none">
+      <label>📎 연결된 참고 영상 목록</label>
+      <div id="sc_linkedRefs_list" class="linked-refs-list"></div>
+    </div>
     <div class="field"><label>날짜 <span class="req">*</span></label><input type="date" id="sc_f_date"></div>
     <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="sc_f_title" placeholder="예: 두피 마사지 릴스 업로드"></div>
     <div class="field"><label>담당자</label><input type="text" id="sc_f_assignee" placeholder="예: 정민"></div>
@@ -395,7 +408,14 @@ function extractCode(input){
 function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function isTargeted(marketId){ return loadTargets().some(t => t.sourceId === marketId); }
 function isMarketDone(marketId){ return loadTargets().some(t => t.sourceId === marketId && t.status === 'done'); }
-function isScheduled(targetId){ return loadSchedule().some(s => s.sourceTargetId === targetId); }
+function isScheduled(targetId){ return loadSchedule().some(s => (s.sourceTargetIds||[]).includes(targetId)); }
+function getScheduleForTarget(targetId){ return loadSchedule().find(s => (s.sourceTargetIds||[]).includes(targetId)) || null; }
+function getMarketScheduleInfo(marketId){
+  const target = loadTargets().find(t => t.sourceId === marketId);
+  if(!target) return null;
+  const sched = getScheduleForTarget(target.id);
+  return sched ? {date: sched.date, status: sched.status} : null;
+}
 
 /* ══════════ 탭 전환 ══════════ */
 function jumpToTab(tab){
@@ -414,7 +434,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 const DEFAULT_SEARCHACCTS = [{"account":"itsedonna_","followers":78000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_itsedonna_"},{"account":"carebyme.official","followers":1232,"category":"순환/붓기","note":"🟡 인접","id":"seed_carebyme.official"},{"account":"livvykim26","followers":168000,"category":"비대칭교정","note":"✅ 온토픽","id":"seed_livvykim26"},{"account":"whatislada","followers":106000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_whatislada"},{"account":"leeskincare7","followers":109000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_leeskincare7"},{"account":"dayjin_beauty","followers":36000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_dayjin_beauty"},{"account":"faceteacher_juunq","followers":80000,"category":"리프팅","note":"✅ 온토픽","id":"seed_faceteacher_juunq"},{"account":"fitmate_jangssam","followers":187000,"category":"순환/붓기","note":"🟡 인접","id":"seed_fitmate_jangssam"},{"account":"hudsonsqrd","followers":260000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_hudsonsqrd"},{"account":"coco_vely1229","followers":286000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_coco_vely1229"},{"account":"esthetia_songdo_sh","followers":73000,"category":"윤곽관리","note":"✅ 온토픽","id":"seed_esthetia_songdo_sh"},{"account":"allyoucanface","followers":853000,"category":"리프팅","note":"✅ 온토픽","id":"seed_allyoucanface"},{"account":"liftique.app","followers":211000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_liftique.app"},{"account":"lemi_brand.co","followers":66000,"category":"두피마사지","note":"✅ 온토픽","id":"seed_lemi_brand.co"},{"account":"skincarewithyuri","followers":1706000,"category":"괄사/구아샤","note":"✅ 온토픽","id":"seed_skincarewithyuri"},{"account":"kokohayashi","followers":680000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_kokohayashi"},{"account":"valeriiaveksler","followers":3034000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_valeriiaveksler"},{"account":"dyou.co","followers":99000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_dyou.co"},{"account":"cami_kana","followers":786000,"category":"괄사/구아샤","note":"🟡 인접","id":"seed_cami_kana"},{"account":"dr_ales_osteopath","followers":2234000,"category":"리프팅","note":"✅ 온토픽","id":"seed_dr_ales_osteopath"},{"account":"madymorrison","followers":1056000,"category":"기타","note":"🟡 인접","id":"seed_madymorrison"},{"account":"songofskinofficial","followers":1254000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_songofskinofficial"},{"account":"trinhgeorgg","followers":1270000,"category":"얼굴마사지","note":"✅ 온토픽","id":"seed_trinhgeorgg"},{"account":"anastasiabeautyfascia","followers":2769000,"category":"리프팅","note":"✅ 온토픽","id":"seed_anastasiabeautyfascia"},{"account":"blushwithme_parmita","followers":755000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_blushwithme_parmita"},{"account":"yaofacial","followers":213000,"category":"얼굴마사지","note":"✅ 온토픽","id":"seed_yaofacial"},{"account":"studiobymargaritacom","followers":1562000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_studiobymargaritacom"},{"account":"lisa.beautify","followers":825000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_lisa.beautify"},{"account":"sadienardiniofficial","followers":1136000,"category":"리프팅","note":"✅ 온토픽","id":"seed_sadienardiniofficial"},{"account":"seojeong_19","followers":304000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_seojeong_19"},{"account":"lilyfaceyoga","followers":121000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_lilyfaceyoga"},{"account":"hormone.yoga","followers":405000,"category":"기타","note":"🟡 인접","id":"seed_hormone.yoga"},{"account":"takeclass.superface","followers":1019000,"category":"페이스요가","note":"✅ 온토픽","id":"seed_takeclass.superface"},{"account":"danicolexx","followers":1478000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_danicolexx"},{"account":"aylenpark","followers":1693000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_aylenpark"},{"account":"alessa","followers":420000,"category":"스킨케어","note":"⬜ 일반뷰티","id":"seed_alessa"},{"account":"wellness_baum","followers":2063,"category":"리프팅","note":"✅ 온토픽","id":"seed_wellness_baum"},{"account":"pearl._.h_","followers":51000,"category":"얼굴마사지","note":"✅ 온토픽","id":"seed_pearl_h"},{"account":"shasaesthetic_","followers":43000,"category":"윤곽관리","note":"✅ 온토픽","id":"seed_shasaesthetic_"},{"account":"oddukmom","followers":66000,"category":"순환/붓기","note":"✅ 온토픽","id":"seed_oddukmom"},{"account":"jangs_care","followers":43000,"category":"순환/붓기","note":"✅ 온토픽","id":"seed_jangs_care"},{"account":"mediheal_pilates","followers":418000,"category":"괄사/구아샤","note":"🟡 인접","id":"seed_mediheal_pilates"},{"account":"thebrainmaze","followers":1614000,"category":"귀마사지","note":"🟡 인접","id":"seed_thebrainmaze"}];
 const DEFAULT_CUSTOM = [{"id":"DbLouoHBlCZ_1786062807201","code":"DbLouoHBlCZ","account":"lilyfaceyoga","title":"왜 페이스 요가를 해야 하는가","category":"페이스요가","topic":"onTopic","followers":122000,"views":0,"bio":"","note":""}];
 const DEFAULT_TARGETS = [{"id":"ut_1786062409673","title":"얼굴 망치는 페이스요가 1가지","category":"페이스요가","priority":"mid","status":"wait","note":"참고: @dayjin_beauty · 조회수 376,000 · 돌파배수 10.4x","sourceId":"DafxmkzBPcS","sourceLink":"https://www.instagram.com/reel/DafxmkzBPcS/","sourceAccount":"dayjin_beauty"},{"id":"ut_1786062587564","title":"얼굴 비대칭 교정 셀프 루틴","category":"비대칭교정","priority":"mid","status":"wait","note":"참고: @livvykim26 · 조회수 3,820,000 · 돌파배수 22.7x","sourceId":"DavMVssvjvq","sourceLink":"https://www.instagram.com/reel/DavMVssvjvq/","sourceAccount":"livvykim26"},{"id":"ut_1786062822793","title":"왜 페이스 요가를 해야 하는가","category":"페이스요가","priority":"mid","status":"wait","note":"참고: @lilyfaceyoga · 조회수 0 · 돌파배수 0.00x","sourceId":"DbLouoHBlCZ_1786062807201","sourceLink":"https://www.instagram.com/reel/DbLouoHBlCZ/","sourceAccount":"lilyfaceyoga"},{"id":"ut_1786062846250","title":"K-페이스요가 리프팅 루틴","category":"페이스요가","priority":"mid","status":"wait","note":"참고: @coco_vely1229 · 조회수 2,004,000 · 돌파배수 7.01x","sourceId":"DbGBaewhc6G","sourceLink":"https://www.instagram.com/reel/DbGBaewhc6G/","sourceAccount":"coco_vely1229"},{"id":"ut_nasolabial1","title":"Nasolabial folds","category":"리프팅","priority":"mid","status":"wait","note":"참고: @coco_vely1229 · 조회수 116,000 · 돌파배수 0.41x","sourceId":"DbanPK-hUuU","sourceLink":"https://www.instagram.com/reel/DbanPK-hUuU/","sourceAccount":"coco_vely1229"},{"id":"ut_nasolabial2","title":"Nasolabial folds 2","category":"리프팅","priority":"mid","status":"wait","note":"참고: @wellness_baum · 조회수 145,000 · 돌파배수 70.3x (신규 계정, 팔로워 2,063명)","sourceId":"DYWz5kDTJ-Q","sourceLink":"https://www.instagram.com/reel/DYWz5kDTJ-Q/","sourceAccount":"wellness_baum"}];
-const DEFAULT_SCHEDULE = [{"id":"sc_1786063004087","date":"2026-08-11","title":"왜 페이스 요가를 해야 하는가","assignee":"","linkInstagram":"https://www.instagram.com/p/Db5emwIysmg/","status":"done","sourceTargetId":"ut_1786062822793"},{"id":"sc_1786063027023","date":"2026-08-14","title":"페이스요가-비대칭","assignee":"","linkInstagram":"https://www.instagram.com/p/DcBMs0NxOje/","status":"done","sourceTargetId":"ut_1786062846250"},{"id":"sc_1786070723170","date":"2026-08-07","title":"촬영 (11,14내용)","assignee":"","status":"wait","sourceTargetId":null}];
+const DEFAULT_SCHEDULE = [{"id":"sc_1786063004087","date":"2026-08-11","title":"왜 페이스 요가를 해야 하는가","assignee":"","linkInstagram":"https://www.instagram.com/p/Db5emwIysmg/","status":"done","sourceTargetIds":["ut_1786062822793"]},{"id":"sc_1786063027023","date":"2026-08-14","title":"페이스요가-비대칭","assignee":"","linkInstagram":"https://www.instagram.com/p/DcBMs0NxOje/","status":"done","sourceTargetIds":["ut_1786062846250"]},{"id":"sc_1786070723170","date":"2026-08-07","title":"촬영 (11,14내용)","assignee":"","status":"wait","sourceTargetIds":[]}];
 
 /* ══════════════════════════════════════════════
    탭 2: 시장조사 (기존 로직)
@@ -460,10 +480,11 @@ function cardHTML(r){
   const t = tierOf(r.vfr);
   const permalink = `https://www.instagram.com/reel/${r.code}/`;
   const done = isMarketDone(r.id);
+  const schedInfo = getMarketScheduleInfo(r.id);
   return `
   <div class="card">
     <div class="card-head">
-      <div class="card-cats"><span class="cat-tag">${esc(r.category || '기타')}</span>${done ? '<span class="done-tag">✅ 완료</span>' : ''}</div>
+      <div class="card-cats"><span class="cat-tag">${esc(r.category || '기타')}</span>${done ? '<span class="done-tag">✅ 완료</span>' : ''}${schedInfo ? `<span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${STAT_LABEL[schedInfo.status]||schedInfo.status}</span>` : ''}</div>
       <div class="card-title">${esc(r.title || r.note || r.bio)}</div>
     </div>
     <div class="card-embed ${done ? 'card-embed-done' : ''}" id="embed-${r.id}">
@@ -542,7 +563,10 @@ function renderMarketTable(list){
 }
 function renderCatChips(){
   const el = document.getElementById('catChips');
-  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${mState.category===c?'active':''}" data-cat="${c}">${c==='all'?'전체':c}</span>`).join('');
+  const rows = allRows();
+  const counts = {};
+  rows.forEach(r => { const c = r.category || '기타'; counts[c] = (counts[c]||0) + 1; });
+  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${mState.category===c?'active':''}" data-cat="${c}">${c==='all'?'전체':c} (${c==='all'?rows.length:(counts[c]||0)})</span>`).join('');
 }
 function renderMarket(){
   const list = applyMarketFilters();
@@ -844,7 +868,7 @@ function sendTargetToSchedule(targetId){
   const t = loadTargets().find(x => x.id === targetId);
   if(!t) return;
   jumpToTab('schedule');
-  openScheduleModal({ title:t.title, link:t.sourceLink||'', sourceTargetId:t.id });
+  openScheduleModal({ title:t.title, linkInstagram:t.sourceLink||'' }, targetId);
 }
 document.getElementById('ut_search').addEventListener('input', e => { utState.q = e.target.value; renderTargets(); });
 
@@ -997,8 +1021,9 @@ function platformSectionHTML(s, p){
   </div>`;
 }
 function doneCardHTML(s){
-  const target = s.sourceTargetId ? loadTargets().find(t => t.id === s.sourceTargetId) : null;
-  const refLink = target && target.sourceLink;
+  const targetIds = s.sourceTargetIds || [];
+  const allTargets = loadTargets();
+  const refTargets = targetIds.map(tid => allTargets.find(t => t.id === tid)).filter(t => t && t.sourceLink);
   const sections = PLATFORMS.map(p => platformSectionHTML(s, p)).join('');
   return `
   <div class="card">
@@ -1012,7 +1037,7 @@ function doneCardHTML(s){
         <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="editScheduleItem('${s.id}')">✏️ 링크/일정 수정</button>
       </div>
       ${s.sourceFile ? `<div class="card-note">📁 원본 파일: ${/^https?:\/\//.test(s.sourceFile) ? `<a class="src-link" href="${esc(s.sourceFile)}" target="_blank">${esc(s.sourceFile)} ↗</a>` : esc(s.sourceFile)}</div>` : ''}
-      ${refLink ? `<div class="card-note">🔗 참고했던 원본: <a class="src-link" href="${esc(refLink)}" target="_blank">${target.sourceAccount ? '@'+esc(target.sourceAccount) : '원본 영상'} ↗</a></div>` : ''}
+      ${refTargets.length ? `<div class="card-note">🔗 참고했던 원본 (${refTargets.length}개): ${refTargets.map(t => `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">${t.sourceAccount ? '@'+esc(t.sourceAccount) : '원본 영상'} ↗</a>`).join(' · ')}</div>` : ''}
     </div>
   </div>`;
 }
@@ -1038,9 +1063,20 @@ document.getElementById('cal_today').addEventListener('click', () => {
 });
 
 const scModal = document.getElementById('sc_modal');
-let scPendingSourceTargetId = null;
+let scPendingLinkTargetId = null;
 let editingScId = null;
-function openScheduleModal(prefill){
+function renderLinkedRefsList(scId, targetIds){
+  const targets = loadTargets();
+  document.getElementById('sc_linkedRefs_list').innerHTML = (targetIds||[]).map(tid => {
+    const t = targets.find(x => x.id === tid);
+    if(!t) return '';
+    return `<div class="ref-row">
+      <span>${esc(t.title)}${t.sourceAccount ? ' · @'+esc(t.sourceAccount) : ''}</span>
+      <span>${t.sourceLink ? `<a href="${esc(t.sourceLink)}" target="_blank">보기 ↗</a>` : ''} <button class="ref-remove" onclick="removeLinkedTarget('${scId}','${tid}')">제거</button></span>
+    </div>`;
+  }).join('') || '<div class="ref-row">연결된 항목 없음</div>';
+}
+function openScheduleModal(prefill, linkTargetId){
   prefill = prefill || {};
   editingScId = prefill.id || null;
   document.getElementById('sc_f_date').value = prefill.date || ymd(today);
@@ -1051,10 +1087,40 @@ function openScheduleModal(prefill){
   document.getElementById('sc_f_link_tt').value = prefill.linkTiktok || '';
   document.getElementById('sc_f_sourcefile').value = prefill.sourceFile || '';
   document.getElementById('sc_f_status').value = prefill.status || 'wait';
-  scPendingSourceTargetId = prefill.sourceTargetId || null;
+  scPendingLinkTargetId = linkTargetId || null;
+
+  const linkWrap = document.getElementById('sc_f_linkTarget_wrap');
+  const linkedWrap = document.getElementById('sc_linkedRefs_wrap');
+  if(scPendingLinkTargetId && !editingScId){
+    linkWrap.style.display = '';
+    linkedWrap.style.display = 'none';
+    const sel = document.getElementById('sc_f_linkTarget');
+    const existing = loadSchedule();
+    sel.innerHTML = '<option value="__new__">🆕 새 일정 만들기</option>' +
+      existing.map(s => `<option value="${s.id}">${esc(s.date)} · ${esc(s.title)}</option>`).join('');
+    sel.value = '__new__';
+  } else if(editingScId && (prefill.sourceTargetIds||[]).length){
+    linkedWrap.style.display = '';
+    linkWrap.style.display = 'none';
+    renderLinkedRefsList(editingScId, prefill.sourceTargetIds);
+  } else {
+    linkWrap.style.display = 'none';
+    linkedWrap.style.display = 'none';
+  }
+
   document.getElementById('sc_modalTitle').textContent = editingScId ? '일정 수정' : '업데이트 일정 추가';
   document.getElementById('sc_modalSave').textContent = editingScId ? '저장' : '추가';
   scModal.classList.add('open');
+}
+function removeLinkedTarget(scId, targetId){
+  const list = loadSchedule();
+  const item = list.find(s => s.id === scId);
+  if(item && item.sourceTargetIds){
+    item.sourceTargetIds = item.sourceTargetIds.filter(id => id !== targetId);
+    saveSchedule(list);
+    renderLinkedRefsList(scId, item.sourceTargetIds);
+  }
+  renderSchedule(); renderDone(); renderTargets();
 }
 function editScheduleItem(id){
   const s = loadSchedule().find(x => x.id === id);
@@ -1067,6 +1133,23 @@ document.getElementById('sc_modalSave').addEventListener('click', () => {
   const date = document.getElementById('sc_f_date').value;
   const title = document.getElementById('sc_f_title').value.trim();
   if(!date || !title){ alert('날짜와 제목은 필수입니다.'); return; }
+
+  if(scPendingLinkTargetId && !editingScId){
+    const sel = document.getElementById('sc_f_linkTarget');
+    if(sel.value !== '__new__'){
+      const list = loadSchedule();
+      const item = list.find(s => s.id === sel.value);
+      if(item){
+        item.sourceTargetIds = item.sourceTargetIds || [];
+        if(!item.sourceTargetIds.includes(scPendingLinkTargetId)) item.sourceTargetIds.push(scPendingLinkTargetId);
+        saveSchedule(list);
+      }
+      scModal.classList.remove('open');
+      renderSchedule(); renderDone(); renderTargets();
+      return;
+    }
+  }
+
   const fields = {
     date, title,
     assignee: document.getElementById('sc_f_assignee').value.trim(),
@@ -1081,13 +1164,14 @@ document.getElementById('sc_modalSave').addEventListener('click', () => {
     const item = list.find(s => s.id === editingScId);
     if(item) Object.assign(item, fields);
   } else {
-    list.push({ id:'sc_'+Date.now(), ...fields, sourceTargetId: scPendingSourceTargetId });
+    const sourceTargetIds = scPendingLinkTargetId ? [scPendingLinkTargetId] : [];
+    list.push({ id:'sc_'+Date.now(), ...fields, sourceTargetIds });
   }
   saveSchedule(list); scModal.classList.remove('open');
   calState.year = parseInt(date.slice(0,4)); calState.month = parseInt(date.slice(5,7))-1;
   renderSchedule();
   renderDone();
-  if(scPendingSourceTargetId) renderTargets();
+  if(scPendingLinkTargetId) renderTargets();
 });
 
 /* ══════════ 초기 렌더 ══════════ */

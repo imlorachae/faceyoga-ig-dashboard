@@ -86,6 +86,8 @@ const REELS = [
   { account:'seojeong_19', followers:305000, code:'DcBZwqUi99b', views:31000, bio:'', topic:'onTopic', category:'얼굴마사지', title:'하늘보고 메롱하기(목/턱선 스트레칭)', note:'' },
   { account:'seojeong_19', followers:305000, code:'Db-1WdzCcJL', views:39000, bio:'', topic:'onTopic', category:'페이스요가', title:'중안부(볼) 탄력 운동', note:'' },
   { account:'lilyfaceyoga', followers:134000, code:'DcJE0bfBCcD', views:101000, bio:'', topic:'onTopic', category:'리프팅', title:'처진 얼굴, 목부터 운동하라', note:'' },
+  { account:'allyoucanface', followers:868000, code:'DbEQFbkR17a', views:308000, bio:'Face Yoga | Fascia | Posture', topic:'onTopic', category:'눈가케어', title:'Instant Eye Lift Routine', note:'눈가 반짝임 되찾기 루틴' },
+  { account:'allyoucanface', followers:868000, code:'DbBm5IcIdhu', views:63000, bio:'Face Yoga | Fascia | Posture', topic:'onTopic', category:'리프팅', title:'Lower Face Lift - Travel Edition', note:'여행 중에도 할 수 있는 하안부 리프팅' },
 ];
 
 REELS.forEach(r => r.id = r.code);
