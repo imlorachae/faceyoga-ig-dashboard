@@ -116,6 +116,7 @@
   .row-thumb:hover{background:var(--blue-dark)}
   tr.row-done{opacity:.55}
   tr.row-done td{filter:grayscale(40%)}
+  .card.card-done{opacity:.55;filter:grayscale(40%)}
   .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-block}
   .prio-high{background:#fef2f2;color:var(--explode)}
   .prio-mid{background:#fff7ed;color:var(--break)}
@@ -968,7 +969,7 @@ function utCardHTML(t){
     </div>` : ''}`
     : `<div class="card-embed-empty">${u('noRefVideo')}<br>${u('customIdea')}</div>`);
   return `
-  <div class="card">
+  <div class="card ${effStatus === 'done' ? 'card-done' : ''}">
     <div class="card-head">
       <div class="card-cats">
         <span class="cat-tag">${esc(catLabel(t.category))}</span>
