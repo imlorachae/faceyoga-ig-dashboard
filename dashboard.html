@@ -171,36 +171,41 @@
 <body>
 
 <header>
-  <h1>페이스요가·두피마사지 셀프케어 — IG 콘텐츠 리서치 & 운영 도구</h1>
-  <p>2026-08-05 최초 수집 · 서치계정 관리 / 시장조사 / 콘텐츠 업데이트 대상 / 업데이트 일정 · 모든 편집 내용은 이 브라우저에 저장됩니다</p>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+    <div>
+      <h1 data-i18n="headerTitle">페이스요가·두피마사지 셀프케어 — IG 콘텐츠 리서치 & 운영 도구</h1>
+      <p data-i18n="headerSub">2026-08-05 최초 수집 · 서치계정 관리 / 시장조사 / 콘텐츠 업데이트 대상 / 업데이트 일정 · 모든 편집 내용은 이 브라우저에 저장됩니다</p>
+    </div>
+    <button id="langToggleBtn" style="white-space:nowrap;flex-shrink:0;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer"></button>
+  </div>
 </header>
 
 <div class="wrap">
   <div class="tabbar">
-    <button class="tab-btn active" data-tab="search">🔎 서치계정</button>
-    <button class="tab-btn" data-tab="market">📊 시장조사</button>
-    <button class="tab-btn" data-tab="targets">🎯 업데이트 대상</button>
-    <button class="tab-btn" data-tab="schedule">🗓 업데이트 일정</button>
-    <button class="tab-btn" data-tab="done">✅ 업데이트 완료</button>
+    <button class="tab-btn active" data-tab="search" data-i18n="tabSearch">🔎 서치계정</button>
+    <button class="tab-btn" data-tab="market" data-i18n="tabMarket">📊 시장조사</button>
+    <button class="tab-btn" data-tab="targets" data-i18n="tabTargets">🎯 업데이트 대상</button>
+    <button class="tab-btn" data-tab="schedule" data-i18n="tabSchedule">🗓 업데이트 일정</button>
+    <button class="tab-btn" data-tab="done" data-i18n="tabDone">✅ 업데이트 완료</button>
   </div>
 
   <!-- ══════════ 탭 1: 서치계정 ══════════ -->
   <section id="tab-search" class="tab-panel active">
     <div class="controls">
       <div class="controls-row">
-        <label>검색</label>
-        <input type="search" id="sa_search" placeholder="계정명 검색...">
-        <button class="btn-primary" id="sa_addBtn">＋ 계정 추가</button>
+        <label data-i18n="searchLabel">검색</label>
+        <input type="search" id="sa_search" data-i18n-ph="acctSearchPh" placeholder="계정명 검색...">
+        <button class="btn-primary" id="sa_addBtn" data-i18n="addAcctBtn">＋ 계정 추가</button>
         <span class="count-badge" id="sa_count"></span>
       </div>
       <div class="controls-row">
-        <label>부위</label>
+        <label data-i18n="partLabel">부위</label>
         <div class="chip-group" id="sa_catChips"></div>
       </div>
     </div>
-    <h2 class="section">🔎 리서치 대상 계정 <span class="sub">— 정기적으로 관찰할 계정 목록</span></h2>
+    <h2 class="section"><span data-i18n="searchSectionTitle">🔎 리서치 대상 계정</span> <span class="sub" data-i18n="searchSectionSub">— 정기적으로 관찰할 계정 목록</span></h2>
     <table id="sa_table">
-      <thead><tr><th>계정</th><th>팔로워</th><th>부위</th><th>메모</th><th>프로필</th><th>관리</th></tr></thead>
+      <thead><tr><th data-i18n="thAccount">계정</th><th data-i18n="thFollowers">팔로워</th><th data-i18n="thPart">부위</th><th data-i18n="thNote">메모</th><th data-i18n="thProfile">프로필</th><th data-i18n="thManage">관리</th></tr></thead>
       <tbody id="sa_body"></tbody>
     </table>
   </section>
@@ -209,50 +214,50 @@
   <section id="tab-market" class="tab-panel">
     <div class="controls">
       <div class="controls-row">
-        <label>정렬</label>
+        <label data-i18n="sortLabel">정렬</label>
         <select id="sortSel">
-          <option value="vfr">돌파배수 높은순</option>
-          <option value="views">조회수 높은순</option>
-          <option value="followers">팔로워 높은순</option>
-          <option value="account">계정명순</option>
+          <option value="vfr" data-i18n="sortVfr">돌파배수 높은순</option>
+          <option value="views" data-i18n="sortViews">조회수 높은순</option>
+          <option value="followers" data-i18n="sortFollowers">팔로워 높은순</option>
+          <option value="account" data-i18n="sortAccount">계정명순</option>
         </select>
-        <input type="search" id="searchBox" placeholder="계정명/제목 검색...">
-        <button class="btn-primary" id="addBtn">＋ 영상 추가</button>
-        <button class="btn-ghost" id="restoreBtn" style="display:none">삭제한 항목 되돌리기</button>
+        <input type="search" id="searchBox" data-i18n-ph="marketSearchPh" placeholder="계정명/제목 검색...">
+        <button class="btn-primary" id="addBtn" data-i18n="addVideoBtn">＋ 영상 추가</button>
+        <button class="btn-ghost" id="restoreBtn" style="display:none" data-i18n="restoreBtn">삭제한 항목 되돌리기</button>
         <span class="count-badge" id="countBadge"></span>
       </div>
       <div class="controls-row">
-        <label>부위</label>
+        <label data-i18n="partLabel">부위</label>
         <div class="chip-group" id="catChips"></div>
       </div>
       <div class="controls-row">
-        <label>주제적합성</label>
+        <label data-i18n="topicLabel">주제적합성</label>
         <div class="chip-group" id="topicChips">
-          <span class="chip active" data-topic="all">전체</span>
-          <span class="chip" data-topic="onTopic">✅ 온토픽</span>
-          <span class="chip" data-topic="adjacent">🟡 인접</span>
-          <span class="chip" data-topic="general">⬜ 일반뷰티</span>
-          <span class="chip" data-topic="off">⚠️ 무관</span>
-          <span class="chip" data-topic="custom">✏️ 직접추가</span>
+          <span class="chip active" data-topic="all" data-i18n="topicAll">전체</span>
+          <span class="chip" data-topic="onTopic" data-i18n="topicOnTopic">✅ 온토픽</span>
+          <span class="chip" data-topic="adjacent" data-i18n="topicAdjacent">🟡 인접</span>
+          <span class="chip" data-topic="general" data-i18n="topicGeneral">⬜ 일반뷰티</span>
+          <span class="chip" data-topic="off" data-i18n="topicOff">⚠️ 무관</span>
+          <span class="chip" data-topic="custom" data-i18n="topicCustom">✏️ 직접추가</span>
         </div>
       </div>
     </div>
 
-    <h2 class="section">⭐ 카드 보기 <span class="sub">— 제목/부위 → 이미지 → 계정 → 데이터 순</span></h2>
+    <h2 class="section"><span data-i18n="cardViewTitle">⭐ 카드 보기</span> <span class="sub" data-i18n="cardViewSub">— 제목/부위 → 이미지 → 계정 → 데이터 순</span></h2>
     <div class="grid" id="cardGrid"></div>
 
-    <h2 class="section">📋 전체 데이터 테이블 <span class="sub">— 클릭 시 팝업으로 재생</span></h2>
+    <h2 class="section"><span data-i18n="tableViewTitle">📋 전체 데이터 테이블</span> <span class="sub" data-i18n="tableViewSub">— 클릭 시 팝업으로 재생</span></h2>
     <table id="fullTable">
       <thead>
         <tr>
-          <th data-k="account">계정</th>
-          <th>제목/부위</th>
-          <th data-k="followers">팔로워</th>
-          <th data-k="views">조회수</th>
-          <th data-k="vfr">돌파배수</th>
-          <th data-k="topic">주제</th>
-          <th>재생</th>
-          <th>관리</th>
+          <th data-k="account" data-i18n="thAccount">계정</th>
+          <th data-i18n="thTitlePart">제목/부위</th>
+          <th data-k="followers" data-i18n="thFollowers">팔로워</th>
+          <th data-k="views" data-i18n="thViews">조회수</th>
+          <th data-k="vfr" data-i18n="thVfr">돌파배수</th>
+          <th data-k="topic" data-i18n="thTopic">주제</th>
+          <th data-i18n="thPlay">재생</th>
+          <th data-i18n="thManage">관리</th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
@@ -263,18 +268,18 @@
   <section id="tab-targets" class="tab-panel">
     <div class="controls">
       <div class="controls-row">
-        <label>검색</label>
-        <input type="search" id="ut_search" placeholder="제목 검색...">
-        <button class="btn-primary" id="ut_addBtn">＋ 업데이트 대상 추가</button>
+        <label data-i18n="searchLabel">검색</label>
+        <input type="search" id="ut_search" data-i18n-ph="titleSearchPh" placeholder="제목 검색...">
+        <button class="btn-primary" id="ut_addBtn" data-i18n="addTargetBtn">＋ 업데이트 대상 추가</button>
         <span class="count-badge" id="ut_count"></span>
       </div>
     </div>
-    <h2 class="section">⭐ 카드 미리보기 <span class="sub">— 참고 영상이 있으면 바로 재생됩니다</span></h2>
+    <h2 class="section"><span data-i18n="targetCardTitle">⭐ 카드 미리보기</span> <span class="sub" data-i18n="targetCardSub">— 참고 영상이 있으면 바로 재생됩니다</span></h2>
     <div class="grid" id="ut_cardGrid"></div>
 
-    <h2 class="section">📋 전체 목록</h2>
+    <h2 class="section" data-i18n="fullListTitle">📋 전체 목록</h2>
     <table id="ut_table">
-      <thead><tr><th>썸네일</th><th>제목</th><th>부위</th><th>우선순위</th><th>상태</th><th>참고/메모</th><th>관리</th></tr></thead>
+      <thead><tr><th data-i18n="thThumb">썸네일</th><th data-i18n="thTitle">제목</th><th data-i18n="thPart">부위</th><th data-i18n="thPriority">우선순위</th><th data-i18n="thStatus">상태</th><th data-i18n="thRefNote">참고/메모</th><th data-i18n="thManage">관리</th></tr></thead>
       <tbody id="ut_body"></tbody>
     </table>
   </section>
@@ -288,13 +293,13 @@
           <span class="cal-title" id="cal_title"></span>
           <button id="cal_next">▶</button>
         </div>
-        <button class="btn-ghost" id="cal_today">오늘</button>
-        <input type="search" id="sc_search" placeholder="제목 검색...">
-        <button class="btn-primary" id="sc_addBtn">＋ 일정 추가</button>
+        <button class="btn-ghost" id="cal_today" data-i18n="todayBtn">오늘</button>
+        <input type="search" id="sc_search" data-i18n-ph="titleSearchPh" placeholder="제목 검색...">
+        <button class="btn-primary" id="sc_addBtn" data-i18n="addScheduleBtn">＋ 일정 추가</button>
         <span class="count-badge" id="sc_count"></span>
       </div>
     </div>
-    <h2 class="section">🗓 업데이트 일정 <span class="sub">— 날짜 숫자 클릭으로 그 날짜에 바로 추가 · 제목 클릭 시 참고 링크 재생 · ● 클릭으로 상태 변경</span></h2>
+    <h2 class="section"><span data-i18n="scheduleTitle">🗓 업데이트 일정</span> <span class="sub" data-i18n="scheduleSub">— 날짜 숫자 클릭으로 그 날짜에 바로 추가 · 제목 클릭 시 참고 링크 재생 · ● 클릭으로 상태 변경</span></h2>
     <div class="cal-grid" id="cal_weekdays"></div>
     <div class="cal-grid" id="sc_calendar"></div>
   </section>
@@ -303,37 +308,37 @@
   <section id="tab-done" class="tab-panel">
     <div class="controls">
       <div class="controls-row">
-        <label>검색</label>
-        <input type="search" id="done_search" placeholder="제목 검색...">
+        <label data-i18n="searchLabel">검색</label>
+        <input type="search" id="done_search" data-i18n-ph="titleSearchPh" placeholder="제목 검색...">
         <span class="count-badge" id="done_count"></span>
       </div>
     </div>
-    <h2 class="section">✅ 업데이트 완료 콘텐츠 <span class="sub">— 업데이트 일정에서 상태를 '완료'로 바꾸면 여기 자동으로 표시됩니다 · 좋아요/댓글은 인스타그램에서 직접 확인해 입력하세요</span></h2>
+    <h2 class="section"><span data-i18n="doneTitle">✅ 업데이트 완료 콘텐츠</span> <span class="sub" data-i18n="doneSub">— 업데이트 일정에서 상태를 '완료'로 바꾸면 여기 자동으로 표시됩니다 · 좋아요/댓글은 인스타그램에서 직접 확인해 입력하세요</span></h2>
     <div class="grid" id="done_cardGrid"></div>
   </section>
 
-  <footer>JB_SNS_IG_SelfCare · 반자동 수집 프로세스 (수집_검증_프로세스.md 참고) · 인스타그램 자체 정책상 완전 자동화 불가 · 모든 추가/삭제/상태 변경은 이 브라우저에만 저장됩니다</footer>
+  <footer data-i18n="footer">JB_SNS_IG_SelfCare · 반자동 수집 프로세스 (수집_검증_프로세스.md 참고) · 인스타그램 자체 정책상 완전 자동화 불가 · 모든 추가/삭제/상태 변경은 이 브라우저에만 저장됩니다</footer>
 </div>
 
 <!-- 모달: 시장조사 영상 추가 -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3 id="modalTitle">영상 추가</h3>
-    <p class="hint">인스타그램 릴스 URL과 정보를 입력하세요. 조회수·팔로워는 릴스탭에서 직접 확인한 숫자를 넣어주세요.</p>
-    <div class="field"><label>계정명 <span class="req">*</span></label><input type="text" id="f_account" placeholder="예: dayjin_beauty (@ 제외)"></div>
-    <div class="field"><label>릴스 URL 또는 코드 <span class="req">*</span></label><input type="text" id="f_url" placeholder="https://www.instagram.com/reel/XXXXXXXXX/"></div>
-    <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="f_title" placeholder="예: 두피 마사지로 얼굴 올리는 법"></div>
-    <div class="field"><label>부위 카테고리</label><select id="f_category"></select></div>
-    <div class="field"><label>주제적합성</label>
+    <p class="hint" data-i18n="marketModalHint">인스타그램 릴스 URL과 정보를 입력하세요. 조회수·팔로워는 릴스탭에서 직접 확인한 숫자를 넣어주세요.</p>
+    <div class="field"><label data-i18n="fAccount">계정명 <span class="req">*</span></label><input type="text" id="f_account" data-i18n-ph="fAccountPh" placeholder="예: dayjin_beauty (@ 제외)"></div>
+    <div class="field"><label data-i18n="fUrl">릴스 URL 또는 코드 <span class="req">*</span></label><input type="text" id="f_url" placeholder="https://www.instagram.com/reel/XXXXXXXXX/"></div>
+    <div class="field"><label data-i18n="fTitle">제목 <span class="req">*</span></label><input type="text" id="f_title" data-i18n-ph="fTitlePh" placeholder="예: 두피 마사지로 얼굴 올리는 법"></div>
+    <div class="field"><label data-i18n="fCategory">부위 카테고리</label><select id="f_category"></select></div>
+    <div class="field"><label data-i18n="topicLabel">주제적합성</label>
       <select id="f_topic">
-        <option value="onTopic">✅ 온토픽</option><option value="adjacent">🟡 인접</option>
-        <option value="general">⬜ 일반뷰티</option><option value="off">⚠️ 무관</option>
+        <option value="onTopic" data-i18n="topicOnTopic">✅ 온토픽</option><option value="adjacent" data-i18n="topicAdjacent">🟡 인접</option>
+        <option value="general" data-i18n="topicGeneral">⬜ 일반뷰티</option><option value="off" data-i18n="topicOff">⚠️ 무관</option>
       </select>
     </div>
-    <div class="field"><label>팔로워 수</label><input type="number" id="f_followers" placeholder="예: 36000"></div>
-    <div class="field"><label>조회수</label><input type="number" id="f_views" placeholder="예: 376000"></div>
-    <div class="field"><label>비고</label><textarea id="f_note" placeholder="내용 설명, 특이사항 등"></textarea></div>
-    <div class="modal-actions"><button class="btn-cancel" id="modalCancel">취소</button><button class="btn-primary" id="modalSave">추가</button></div>
+    <div class="field"><label data-i18n="fFollowers">팔로워 수</label><input type="number" id="f_followers" placeholder="예: 36000"></div>
+    <div class="field"><label data-i18n="fViews">조회수</label><input type="number" id="f_views" placeholder="예: 376000"></div>
+    <div class="field"><label data-i18n="fNote">비고</label><textarea id="f_note" data-i18n-ph="fNotePh" placeholder="내용 설명, 특이사항 등"></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" id="modalCancel" data-i18n="cancelBtn">취소</button><button class="btn-primary" id="modalSave">추가</button></div>
   </div>
 </div>
 
@@ -341,12 +346,12 @@
 <div class="modal-overlay" id="sa_modal">
   <div class="modal">
     <h3 id="sa_modalTitle">서치계정 추가</h3>
-    <p class="hint">정기적으로 관찰할 인스타그램 계정을 등록하세요.</p>
-    <div class="field"><label>계정명 <span class="req">*</span></label><input type="text" id="sa_f_account" placeholder="예: dayjin_beauty (@ 제외)"></div>
-    <div class="field"><label>팔로워 수</label><input type="number" id="sa_f_followers" placeholder="예: 36000"></div>
-    <div class="field"><label>부위 카테고리</label><select id="sa_f_category"></select></div>
-    <div class="field"><label>메모</label><textarea id="sa_f_note" placeholder="계정 특징, 관찰 이유 등"></textarea></div>
-    <div class="modal-actions"><button class="btn-cancel" id="sa_modalCancel">취소</button><button class="btn-primary" id="sa_modalSave">추가</button></div>
+    <p class="hint" data-i18n="saModalHint">정기적으로 관찰할 인스타그램 계정을 등록하세요.</p>
+    <div class="field"><label data-i18n="fAccount">계정명 <span class="req">*</span></label><input type="text" id="sa_f_account" data-i18n-ph="fAccountPh" placeholder="예: dayjin_beauty (@ 제외)"></div>
+    <div class="field"><label data-i18n="fFollowers">팔로워 수</label><input type="number" id="sa_f_followers" placeholder="예: 36000"></div>
+    <div class="field"><label data-i18n="fCategory">부위 카테고리</label><select id="sa_f_category"></select></div>
+    <div class="field"><label data-i18n="fNote">메모</label><textarea id="sa_f_note" data-i18n-ph="saNotePh" placeholder="계정 특징, 관찰 이유 등"></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" id="sa_modalCancel" data-i18n="cancelBtn">취소</button><button class="btn-primary" id="sa_modalSave">추가</button></div>
   </div>
 </div>
 
@@ -354,16 +359,16 @@
 <div class="modal-overlay" id="ut_modal">
   <div class="modal">
     <h3 id="ut_modalTitle">업데이트 대상 추가</h3>
-    <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="ut_f_title" placeholder="예: 두피 마사지 릴스 제작"></div>
-    <div class="field"><label>부위 카테고리</label><select id="ut_f_category"></select></div>
-    <div class="field"><label>우선순위</label>
-      <select id="ut_f_priority"><option value="high">높음</option><option value="mid" selected>중간</option><option value="low">낮음</option></select>
+    <div class="field"><label data-i18n="fTitle">제목 <span class="req">*</span></label><input type="text" id="ut_f_title" data-i18n-ph="utTitlePh" placeholder="예: 두피 마사지 릴스 제작"></div>
+    <div class="field"><label data-i18n="fCategory">부위 카테고리</label><select id="ut_f_category"></select></div>
+    <div class="field"><label data-i18n="fPriority">우선순위</label>
+      <select id="ut_f_priority"><option value="high" data-i18n="prioHigh">높음</option><option value="mid" selected data-i18n="prioMid">중간</option><option value="low" data-i18n="prioLow">낮음</option></select>
     </div>
-    <div class="field"><label>상태</label>
-      <select id="ut_f_status"><option value="wait" selected>대기</option><option value="progress">진행중</option><option value="done">완료</option></select>
+    <div class="field"><label data-i18n="fStatus">상태</label>
+      <select id="ut_f_status"><option value="wait" selected data-i18n="statWait">대기</option><option value="progress" data-i18n="statProgress">진행중</option><option value="done" data-i18n="statDone">완료</option></select>
     </div>
-    <div class="field"><label>참고/메모</label><textarea id="ut_f_note" placeholder="참고한 계정/영상, 기획 방향 등"></textarea></div>
-    <div class="modal-actions"><button class="btn-cancel" id="ut_modalCancel">취소</button><button class="btn-primary" id="ut_modalSave">추가</button></div>
+    <div class="field"><label data-i18n="thRefNote">참고/메모</label><textarea id="ut_f_note" data-i18n-ph="utNotePh" placeholder="참고한 계정/영상, 기획 방향 등"></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" id="ut_modalCancel" data-i18n="cancelBtn">취소</button><button class="btn-primary" id="ut_modalSave">추가</button></div>
   </div>
 </div>
 
@@ -372,24 +377,24 @@
   <div class="modal">
     <h3 id="sc_modalTitle">업데이트 일정 추가</h3>
     <div class="field" id="sc_f_linkTarget_wrap" style="display:none">
-      <label>📎 이 참고 영상을 연결할 일정</label>
+      <label data-i18n="scLinkTarget">📎 이 참고 영상을 연결할 일정</label>
       <select id="sc_f_linkTarget"></select>
     </div>
     <div class="field" id="sc_linkedRefs_wrap" style="display:none">
-      <label>📎 연결된 참고 영상 목록</label>
+      <label data-i18n="scLinkedList">📎 연결된 참고 영상 목록</label>
       <div id="sc_linkedRefs_list" class="linked-refs-list"></div>
     </div>
-    <div class="field"><label>날짜 <span class="req">*</span></label><input type="date" id="sc_f_date"></div>
-    <div class="field"><label>제목 <span class="req">*</span></label><input type="text" id="sc_f_title" placeholder="예: 두피 마사지 릴스 업로드"></div>
-    <div class="field"><label>담당자</label><input type="text" id="sc_f_assignee" placeholder="예: 정민"></div>
-    <div class="field"><label>📷 인스타그램 링크</label><input type="text" id="sc_f_link_ig" placeholder="https://www.instagram.com/reel/..."></div>
-    <div class="field"><label>▶️ 유튜브 링크</label><input type="text" id="sc_f_link_yt" placeholder="https://www.youtube.com/watch?v=... 또는 shorts 링크"></div>
-    <div class="field"><label>🎵 틱톡 링크</label><input type="text" id="sc_f_link_tt" placeholder="https://www.tiktok.com/@계정/video/..."></div>
-    <div class="field"><label>원본 파일 위치</label><input type="text" id="sc_f_sourcefile" placeholder="캡컷 프로젝트 링크, 드랍박스 폴더 링크 등"></div>
-    <div class="field"><label>상태</label>
-      <select id="sc_f_status"><option value="wait" selected>예정</option><option value="progress">진행중</option><option value="done">완료</option></select>
+    <div class="field"><label data-i18n="fDate">날짜 <span class="req">*</span></label><input type="date" id="sc_f_date"></div>
+    <div class="field"><label data-i18n="fTitle">제목 <span class="req">*</span></label><input type="text" id="sc_f_title" data-i18n-ph="scTitlePh" placeholder="예: 두피 마사지 릴스 업로드"></div>
+    <div class="field"><label data-i18n="fAssignee">담당자</label><input type="text" id="sc_f_assignee" data-i18n-ph="scAssigneePh" placeholder="예: 정민"></div>
+    <div class="field"><label data-i18n="fLinkIg">📷 인스타그램 링크</label><input type="text" id="sc_f_link_ig" placeholder="https://www.instagram.com/reel/..."></div>
+    <div class="field"><label data-i18n="fLinkYt">▶️ 유튜브 링크</label><input type="text" id="sc_f_link_yt" data-i18n-ph="scYtPh" placeholder="https://www.youtube.com/watch?v=... 또는 shorts 링크"></div>
+    <div class="field"><label data-i18n="fLinkTt">🎵 틱톡 링크</label><input type="text" id="sc_f_link_tt" placeholder="https://www.tiktok.com/@계정/video/..."></div>
+    <div class="field"><label data-i18n="fSourceFile">원본 파일 위치</label><input type="text" id="sc_f_sourcefile" data-i18n-ph="scSourcePh" placeholder="캡컷 프로젝트 링크, 드랍박스 폴더 링크 등"></div>
+    <div class="field"><label data-i18n="fStatus">상태</label>
+      <select id="sc_f_status"><option value="wait" selected data-i18n="scStatWait">예정</option><option value="progress" data-i18n="statProgress">진행중</option><option value="done" data-i18n="statDone">완료</option></select>
     </div>
-    <div class="modal-actions"><button class="btn-cancel" id="sc_modalCancel">취소</button><button class="btn-primary" id="sc_modalSave">추가</button></div>
+    <div class="modal-actions"><button class="btn-cancel" id="sc_modalCancel" data-i18n="cancelBtn">취소</button><button class="btn-primary" id="sc_modalSave">추가</button></div>
   </div>
 </div>
 
@@ -443,6 +448,148 @@ const DEFAULT_TARGETS = [{"id":"ut_1786062409673","title":"얼굴 망치는 페�
 const DEFAULT_SCHEDULE = [{"id":"sc_1786063004087","date":"2026-08-11","title":"왜 페이스 요가를 해야 하는가","assignee":"","linkInstagram":"https://www.instagram.com/p/Db5emwIysmg/","status":"done","sourceTargetIds":["ut_1786062822793"]},{"id":"sc_1786063027023","date":"2026-08-14","title":"페이스요가-비대칭","assignee":"","linkInstagram":"https://www.instagram.com/p/DcBMs0NxOje/","status":"done","sourceTargetIds":["ut_1786062846250"]},{"id":"sc_1786070723170","date":"2026-08-07","title":"촬영 (11,14내용)","assignee":"","status":"wait","sourceTargetIds":[]}];
 
 /* ══════════════════════════════════════════════
+   언어 전환 (영/한)
+   ══════════════════════════════════════════════ */
+const LS_LANG = 'igdash_lang_v1';
+let currentLang = localStorage.getItem(LS_LANG) || 'ko';
+const I18N = {
+  ko: {
+    headerTitle:'페이스요가·두피마사지 셀프케어 — IG 콘텐츠 리서치 & 운영 도구',
+    headerSub:'2026-08-05 최초 수집 · 서치계정 관리 / 시장조사 / 콘텐츠 업데이트 대상 / 업데이트 일정 · 모든 편집 내용은 이 브라우저에 저장됩니다',
+    tabSearch:'🔎 서치계정', tabMarket:'📊 시장조사', tabTargets:'🎯 업데이트 대상', tabSchedule:'🗓 업데이트 일정', tabDone:'✅ 업데이트 완료',
+    searchLabel:'검색', acctSearchPh:'계정명 검색...', addAcctBtn:'＋ 계정 추가', partLabel:'부위',
+    searchSectionTitle:'🔎 리서치 대상 계정', searchSectionSub:'— 정기적으로 관찰할 계정 목록',
+    thAccount:'계정', thFollowers:'팔로워', thPart:'부위', thNote:'메모', thProfile:'프로필', thManage:'관리',
+    sortLabel:'정렬', sortVfr:'돌파배수 높은순', sortViews:'조회수 높은순', sortFollowers:'팔로워 높은순', sortAccount:'계정명순',
+    marketSearchPh:'계정명/제목 검색...', addVideoBtn:'＋ 영상 추가', restoreBtn:'삭제한 항목 되돌리기',
+    topicLabel:'주제적합성', topicAll:'전체', topicOnTopic:'✅ 온토픽', topicAdjacent:'🟡 인접', topicGeneral:'⬜ 일반뷰티', topicOff:'⚠️ 무관', topicCustom:'✏️ 직접추가',
+    cardViewTitle:'⭐ 카드 보기', cardViewSub:'— 제목/부위 → 이미지 → 계정 → 데이터 순',
+    tableViewTitle:'📋 전체 데이터 테이블', tableViewSub:'— 클릭 시 팝업으로 재생',
+    thTitlePart:'제목/부위', thViews:'조회수', thVfr:'돌파배수', thTopic:'주제', thPlay:'재생',
+    titleSearchPh:'제목 검색...', addTargetBtn:'＋ 업데이트 대상 추가',
+    targetCardTitle:'⭐ 카드 미리보기', targetCardSub:'— 참고 영상이 있으면 바로 재생됩니다',
+    fullListTitle:'📋 전체 목록', thThumb:'썸네일', thTitle:'제목', thPriority:'우선순위', thStatus:'상태', thRefNote:'참고/메모',
+    todayBtn:'오늘', addScheduleBtn:'＋ 일정 추가',
+    scheduleTitle:'🗓 업데이트 일정', scheduleSub:'— 날짜 숫자 클릭으로 그 날짜에 바로 추가 · 제목 클릭 시 참고 링크 재생 · ● 클릭으로 상태 변경',
+    doneTitle:'✅ 업데이트 완료 콘텐츠', doneSub:"— 업데이트 일정에서 상태를 '완료'로 바꾸면 여기 자동으로 표시됩니다 · 좋아요/댓글은 인스타그램에서 직접 확인해 입력하세요",
+    footer:'JB_SNS_IG_SelfCare · 반자동 수집 프로세스 (수집_검증_프로세스.md 참고) · 인스타그램 자체 정책상 완전 자동화 불가 · 모든 추가/삭제/상태 변경은 이 브라우저에만 저장됩니다',
+    marketModalHint:'인스타그램 릴스 URL과 정보를 입력하세요. 조회수·팔로워는 릴스탭에서 직접 확인한 숫자를 넣어주세요.',
+    fAccount:'계정명 *', fAccountPh:'예: dayjin_beauty (@ 제외)', fUrl:'릴스 URL 또는 코드 *', fTitle:'제목 *', fTitlePh:'예: 두피 마사지로 얼굴 올리는 법',
+    fCategory:'부위 카테고리', fFollowers:'팔로워 수', fViews:'조회수', fNote:'비고', fNotePh:'내용 설명, 특이사항 등', cancelBtn:'취소',
+    saModalHint:'정기적으로 관찰할 인스타그램 계정을 등록하세요.', saNotePh:'계정 특징, 관찰 이유 등',
+    utTitlePh:'예: 두피 마사지 릴스 제작', fPriority:'우선순위', prioHigh:'높음', prioMid:'중간', prioLow:'낮음',
+    fStatus:'상태', statWait:'대기', statProgress:'진행중', statDone:'완료', utNotePh:'참고한 계정/영상, 기획 방향 등',
+    scLinkTarget:'📎 이 참고 영상을 연결할 일정', scLinkedList:'📎 연결된 참고 영상 목록',
+    fDate:'날짜 *', scTitlePh:'예: 두피 마사지 릴스 업로드', fAssignee:'담당자', scAssigneePh:'예: 정민',
+    fLinkIg:'📷 인스타그램 링크', fLinkYt:'▶️ 유튜브 링크', scYtPh:'https://www.youtube.com/watch?v=... 또는 shorts 링크',
+    fLinkTt:'🎵 틱톡 링크', fSourceFile:'원본 파일 위치', scSourcePh:'캡컷 프로젝트 링크, 드랍박스 폴더 링크 등', scStatWait:'예정',
+    langToggle:'🌐 EN'
+  },
+  en: {
+    headerTitle:'Face Yoga & Scalp Massage Self-Care — IG Content Research & Ops Tool',
+    headerSub:'First collected 2026-08-05 · Search Accounts / Market Research / Update Targets / Update Schedule · All edits are saved in this browser',
+    tabSearch:'🔎 Search Accounts', tabMarket:'📊 Market Research', tabTargets:'🎯 Update Targets', tabSchedule:'🗓 Update Schedule', tabDone:'✅ Update Complete',
+    searchLabel:'Search', acctSearchPh:'Search by account name...', addAcctBtn:'＋ Add Account', partLabel:'Category',
+    searchSectionTitle:'🔎 Accounts Being Tracked', searchSectionSub:'— accounts observed on a regular basis',
+    thAccount:'Account', thFollowers:'Followers', thPart:'Category', thNote:'Note', thProfile:'Profile', thManage:'Manage',
+    sortLabel:'Sort', sortVfr:'Highest breakout ratio', sortViews:'Highest views', sortFollowers:'Highest followers', sortAccount:'Account name',
+    marketSearchPh:'Search by account/title...', addVideoBtn:'＋ Add Video', restoreBtn:'Restore deleted items',
+    topicLabel:'Topic Fit', topicAll:'All', topicOnTopic:'✅ On-topic', topicAdjacent:'🟡 Adjacent', topicGeneral:'⬜ General beauty', topicOff:'⚠️ Off-topic', topicCustom:'✏️ Custom',
+    cardViewTitle:'⭐ Card View', cardViewSub:'— title/category → image → account → data',
+    tableViewTitle:'📋 Full Data Table', tableViewSub:'— click to play in a popup',
+    thTitlePart:'Title/Category', thViews:'Views', thVfr:'Breakout Ratio', thTopic:'Topic', thPlay:'Play',
+    titleSearchPh:'Search by title...', addTargetBtn:'＋ Add Update Target',
+    targetCardTitle:'⭐ Card Preview', targetCardSub:'— plays instantly if a reference video is attached',
+    fullListTitle:'📋 Full List', thThumb:'Thumbnail', thTitle:'Title', thPriority:'Priority', thStatus:'Status', thRefNote:'Reference/Note',
+    todayBtn:'Today', addScheduleBtn:'＋ Add Schedule',
+    scheduleTitle:'🗓 Update Schedule', scheduleSub:'— click a date number to add on that day · click a title to play its reference link · click ● to change status',
+    doneTitle:'✅ Completed Content', doneSub:"— items marked 'Done' in the Update Schedule tab appear here automatically · check Instagram directly for likes/comments and enter them manually",
+    footer:'JB_SNS_IG_SelfCare · Semi-automated collection process (see 수집_검증_프로세스.md) · Full automation not possible under Instagram policy · All additions/deletions/status changes are saved only in this browser',
+    marketModalHint:'Enter the Instagram reel URL and details. Use the view/follower counts you checked directly on the Reels tab.',
+    fAccount:'Account *', fAccountPh:'e.g. dayjin_beauty (no @)', fUrl:'Reel URL or code *', fTitle:'Title *', fTitlePh:'e.g. How to lift your face with scalp massage',
+    fCategory:'Category', fFollowers:'Followers', fViews:'Views', fNote:'Note', fNotePh:'Content description, notable details, etc.', cancelBtn:'Cancel',
+    saModalHint:'Register an Instagram account to observe regularly.', saNotePh:'Account characteristics, reason for tracking, etc.',
+    utTitlePh:'e.g. Produce a scalp massage reel', fPriority:'Priority', prioHigh:'High', prioMid:'Medium', prioLow:'Low',
+    fStatus:'Status', statWait:'Waiting', statProgress:'In Progress', statDone:'Done', utNotePh:'Reference accounts/videos, planning direction, etc.',
+    scLinkTarget:'📎 Attach this reference video to a schedule', scLinkedList:'📎 Linked reference videos',
+    fDate:'Date *', scTitlePh:'e.g. Upload scalp massage reel', fAssignee:'Assignee', scAssigneePh:'e.g. Jungmin',
+    fLinkIg:'📷 Instagram link', fLinkYt:'▶️ YouTube link', scYtPh:'https://www.youtube.com/watch?v=... or a Shorts link',
+    fLinkTt:'🎵 TikTok link', fSourceFile:'Source file location', scSourcePh:'CapCut project link, Dropbox folder link, etc.', scStatWait:'Scheduled',
+    langToggle:'🌐 한글'
+  }
+};
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.ko[key] || key; }
+const CATEGORY_EN = {
+  '페이스요가':'Face Yoga','리프팅':'Lifting','윤곽관리':'Contour Care','두피마사지':'Scalp Massage',
+  '괄사/구아샤':'Gua Sha','얼굴마사지':'Face Massage','귀마사지':'Ear Massage','눈가케어':'Eye Care',
+  '비대칭교정':'Asymmetry Correction','순환/붓기':'Circulation/Puffiness','스킨케어':'Skincare','기타':'Other'
+};
+function catLabel(cat){ cat = cat || '기타'; return currentLang === 'en' ? (CATEGORY_EN[cat] || cat) : cat; }
+const TOPIC_LABEL_EN = {onTopic:'✅ On-topic', adjacent:'🟡 Adjacent', general:'⬜ General beauty', off:'⚠️ Off-topic', custom:'✏️ Custom'};
+function topicLabel(k){ return currentLang === 'en' ? (TOPIC_LABEL_EN[k] || k) : (TOPIC_LABEL[k] || k); }
+const TIER_LABEL_EN = {'t-explode':'🚀🚀 Viral', 't-break':'🚀 Breakout', 't-spread':'↗ Trending', 't-flat':'👥 Steady'};
+function tierLabel(tier){ return currentLang === 'en' ? (TIER_LABEL_EN[tier.cls] || tier.label) : tier.label; }
+const STAT_LABEL_EN = {wait:'Waiting', progress:'In Progress', done:'Done'};
+function statLabel(k){ return currentLang === 'en' ? (STAT_LABEL_EN[k] || k) : (STAT_LABEL[k] || k); }
+const PRIO_LABEL_EN = {high:'High', mid:'Medium', low:'Low'};
+function prioLabel(k){ return currentLang === 'en' ? (PRIO_LABEL_EN[k] || k) : (PRIO_LABEL[k] || k); }
+const METRIC_LABEL_EN = {likes:'❤️ Likes', comments:'💬 Comments', saves:'🔖 Saves', shares:'🔁 Shares'};
+function metricLabel(k){ return currentLang === 'en' ? (METRIC_LABEL_EN[k] || k) : (METRIC_LABEL[k] || k); }
+const PLATFORM_LABEL_EN = {instagram:'📷 Instagram', youtube:'▶️ YouTube', tiktok:'🎵 TikTok'};
+function platformLabel(p){ return currentLang === 'en' ? (PLATFORM_LABEL_EN[p.key] || p.label) : p.label; }
+const WEEKDAYS_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const UI = {
+  play: {ko:'▶ 재생', en:'▶ Play'}, edit: {ko:'✏️ 수정', en:'✏️ Edit'}, del: {ko:'🗑 삭제', en:'🗑 Delete'},
+  profileView: {ko:'프로필 보기', en:'View Profile'}, embedFailed: {ko:'미리보기를 불러오지 못했습니다', en:'Preview failed to load'},
+  playPopup: {ko:'새 창에서 재생', en:'Play in new window'}, noItems: {ko:'표시할 항목이 없습니다.', en:'No items to display.'},
+  noAccounts: {ko:'등록된 계정이 없습니다.', en:'No accounts registered.'}, noTargets: {ko:'등록된 업데이트 대상이 없습니다.', en:'No update targets registered.'},
+  targetAdded: {ko:'✅ 대상추가됨', en:'✅ Added to targets'}, addToTargets: {ko:'🎯 대상추가', en:'🎯 Add to targets'},
+  viewInTargetsTab: {ko:'업데이트 대상 탭에서 보기', en:'View in Update Targets tab'},
+  scheduleAdded: {ko:'✅ 일정추가됨', en:'✅ Added to schedule'}, addToSchedule: {ko:'🗓 일정추가', en:'🗓 Add to schedule'},
+  doneTag: {ko:'✅ 완료', en:'✅ Done'}, noRefVideo: {ko:'참고 영상 없음', en:'No reference video'},
+  customIdea: {ko:'(직접 작성한 아이디어)', en:'(self-authored idea)'}, clickToPlay: {ko:'클릭해서 재생', en:'Click to play'},
+  viewOriginal: {ko:'원본보기 ↗', en:'View original ↗'}, connectedNone: {ko:'연결된 항목 없음', en:'No linked items'},
+  view: {ko:'보기 ↗', en:'View ↗'}, remove: {ko:'제거', en:'Remove'}, createNewSchedule: {ko:'🆕 새 일정 만들기', en:'🆕 Create new schedule'},
+  addOnDate: {ko:'이 날짜에 일정 추가', en:'Add schedule on this date'}, postView: {ko:'게시물 보기 ↗', en:'View post ↗'},
+  noLinkedPost: {ko:'연결된 게시물 링크 없음', en:'No linked post'}, editLinkSchedule: {ko:'✏️ 링크/일정 수정', en:'✏️ Edit link/schedule'},
+  sourceFile: {ko:'📁 원본 파일:', en:'📁 Source file:'}, originalVideo: {ko:'원본 영상', en:'Original video'},
+  noDoneUpdates: {ko:"완료 상태인 업데이트가 없습니다. 업데이트 일정 탭에서 상태를 '완료'로 바꿔주세요.", en:"No completed updates yet. Change the status to 'Done' in the Update Schedule tab."},
+  alertMarketReq: {ko:'계정명, 릴스 URL, 제목은 필수입니다.', en:'Account, reel URL, and title are required.'},
+  alertBadUrl: {ko:'릴스 URL/코드를 확인해주세요.', en:'Please check the reel URL/code.'},
+  alertAcctReq: {ko:'계정명은 필수입니다.', en:'Account name is required.'},
+  alertTitleReq: {ko:'제목은 필수입니다.', en:'Title is required.'},
+  alertDateTitleReq: {ko:'날짜와 제목은 필수입니다.', en:'Date and title are required.'},
+  editVideo: {ko:'영상 수정', en:'Edit video'}, addVideo: {ko:'영상 추가', en:'Add video'},
+  save: {ko:'저장', en:'Save'}, add: {ko:'추가', en:'Add'},
+  editAccount: {ko:'서치계정 수정', en:'Edit account'}, addAccount: {ko:'서치계정 추가', en:'Add account'},
+  editTarget: {ko:'업데이트 대상 수정', en:'Edit target'}, addTarget: {ko:'업데이트 대상 추가', en:'Add target'},
+  editSchedule: {ko:'일정 수정', en:'Edit schedule'}, addSchedule: {ko:'업데이트 일정 추가', en:'Add schedule'}
+};
+function u(key){ return (UI[key] && UI[key][currentLang]) || (UI[key] && UI[key].ko) || key; }
+function itemsShown(n){ return currentLang === 'en' ? `${n} shown` : `${n}개 표시 중`; }
+function schedulesCount(n){ return currentLang === 'en' ? `${n} schedules` : `${n}개 일정`; }
+function refOriginals(n){ return currentLang === 'en' ? `🔗 Referenced originals (${n}):` : `🔗 참고했던 원본 (${n}개):`; }
+function statusChangeTitle(label){ return currentLang === 'en' ? `Change status: ${label} (click)` : `상태 변경: ${label} (클릭)`; }
+function applyStaticI18n(){
+  document.documentElement.lang = currentLang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  const btn = document.getElementById('langToggleBtn');
+  if(btn) btn.textContent = t('langToggle');
+}
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem(LS_LANG, lang);
+  applyStaticI18n();
+  renderMarket(); renderSearchAccounts(); renderTargets(); renderSchedule(); renderDone();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  applyStaticI18n();
+  const btn = document.getElementById('langToggleBtn');
+  if(btn) btn.addEventListener('click', () => setLang(currentLang === 'ko' ? 'en' : 'ko'));
+});
+
+/* ══════════════════════════════════════════════
    탭 2: 시장조사 (기존 로직)
    ══════════════════════════════════════════════ */
 const LS_CUSTOM = 'igdash_custom_v1';
@@ -491,33 +638,33 @@ function cardHTML(r){
   return `
   <div class="card">
     <div class="card-head">
-      <div class="card-cats"><span class="cat-tag">${esc(r.category || '기타')}</span>${done ? '<span class="done-tag">✅ 완료</span>' : ''}${schedInfo ? `<span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${STAT_LABEL[schedInfo.status]||schedInfo.status}</span>` : ''}</div>
+      <div class="card-cats"><span class="cat-tag">${esc(catLabel(r.category))}</span>${done ? `<span class="done-tag">${u('doneTag')}</span>` : ''}${schedInfo ? `<span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${statLabel(schedInfo.status)}</span>` : ''}</div>
       <div class="card-title">${esc(r.title || r.note || r.bio)}</div>
     </div>
     <div class="card-embed ${done ? 'card-embed-done' : ''}" id="embed-${r.id}">
       <blockquote class="instagram-media" data-instgrm-permalink="${permalink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
-      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
-      <button class="popup-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
+      <div class="card-fallback" style="display:none"><span>${u('embedFailed')}</span></div>
+      <button class="popup-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')" title="${u('playPopup')}">${u('play')}</button>
     </div>
     <div class="card-account-row">
       <div class="acct"><a href="https://www.instagram.com/${r.account}/" target="_blank">@${esc(r.account)}</a></div>
-      <a class="profile-link" href="https://www.instagram.com/${r.account}/" target="_blank">프로필 보기</a>
+      <a class="profile-link" href="https://www.instagram.com/${r.account}/" target="_blank">${u('profileView')}</a>
     </div>
     <div class="card-body">
       <div class="card-metrics">
         <span>👤 <b>${fmtK(r.followers)}</b></span>
         <span>👁 <b>${fmtN(r.views)}</b></span>
-        <span class="vfr-badge ${t.cls}">${t.label} ${fmtVFR(r.vfr)}</span>
+        <span class="vfr-badge ${t.cls}">${tierLabel(t)} ${fmtVFR(r.vfr)}</span>
       </div>
       <div class="card-note">${esc(r.note || '')}</div>
       <div class="card-foot">
-        <span class="topic-tag ${r.topic}">${TOPIC_LABEL[r.topic] || r.topic}</span>
+        <span class="topic-tag ${r.topic}">${topicLabel(r.topic)}</span>
         <span>
           ${isTargeted(r.id)
-            ? `<button class="sent-badge" onclick="jumpToTab('targets')" title="업데이트 대상 탭에서 보기">✅ 대상추가됨</button>`
-            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendToTargets('${r.id}')">🎯 대상추가</button>`}
-          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openMarketModal('${r.id}')">✏️ 수정</button>
-          <button class="del-btn" onclick="deleteMarketEntry('${r.id}')">🗑 삭제</button>
+            ? `<button class="sent-badge" onclick="jumpToTab('targets')" title="${u('viewInTargetsTab')}">${u('targetAdded')}</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendToTargets('${r.id}')">${u('addToTargets')}</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openMarketModal('${r.id}')">${u('edit')}</button>
+          <button class="del-btn" onclick="deleteMarketEntry('${r.id}')">${u('del')}</button>
         </span>
       </div>
     </div>
@@ -525,7 +672,7 @@ function cardHTML(r){
 }
 function renderCards(list){
   const grid = document.getElementById('cardGrid');
-  grid.innerHTML = list.map(cardHTML).join('') || `<div class="empty-hint">표시할 항목이 없습니다.</div>`;
+  grid.innerHTML = list.map(cardHTML).join('') || `<div class="empty-hint">${u('noItems')}</div>`;
   processEmbeds(list);
 }
 function processEmbeds(list, idPrefix){
@@ -550,19 +697,19 @@ function renderMarketTable(list){
     return `
     <tr>
       <td class="acct-cell"><a href="https://www.instagram.com/${r.account}/" target="_blank">@${esc(r.account)}</a></td>
-      <td class="note-cell"><b>${esc(r.title||'')}</b><br><span class="cat-tag" style="margin-top:3px">${esc(r.category||'기타')}</span></td>
+      <td class="note-cell"><b>${esc(r.title||'')}</b><br><span class="cat-tag" style="margin-top:3px">${esc(catLabel(r.category))}</span></td>
       <td class="num">${fmtK(r.followers)}</td>
       <td class="num">${fmtN(r.views)}</td>
       <td class="num"><span class="vfr-badge ${t.cls}">${fmtVFR(r.vfr)}</span></td>
-      <td><span class="topic-tag ${r.topic}">${TOPIC_LABEL[r.topic] || r.topic}</span></td>
-      <td><button class="play-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')">▶ 재생</button></td>
+      <td><span class="topic-tag ${r.topic}">${topicLabel(r.topic)}</span></td>
+      <td><button class="play-btn" onclick="window.open('${permalink}','reelPopup_${r.id}','width=420,height=760')">${u('play')}</button></td>
       <td>
         <span class="row-actions">
           ${isTargeted(r.id)
-            ? `<button class="sent-badge" onclick="jumpToTab('targets')">✅ 대상추가됨</button>`
-            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendToTargets('${r.id}')">🎯 대상추가</button>`}
-          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openMarketModal('${r.id}')">✏️ 수정</button>
-          <button class="del-btn" onclick="deleteMarketEntry('${r.id}')">🗑 삭제</button>
+            ? `<button class="sent-badge" onclick="jumpToTab('targets')">${u('targetAdded')}</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendToTargets('${r.id}')">${u('addToTargets')}</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openMarketModal('${r.id}')">${u('edit')}</button>
+          <button class="del-btn" onclick="deleteMarketEntry('${r.id}')">${u('del')}</button>
         </span>
       </td>
     </tr>`;
@@ -573,11 +720,11 @@ function renderCatChips(){
   const rows = allRows();
   const counts = {};
   rows.forEach(r => { const c = r.category || '기타'; counts[c] = (counts[c]||0) + 1; });
-  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${mState.category===c?'active':''}" data-cat="${c}">${c==='all'?'전체':c} (${c==='all'?rows.length:(counts[c]||0)})</span>`).join('');
+  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${mState.category===c?'active':''}" data-cat="${c}">${c==='all'?t('topicAll'):catLabel(c)} (${c==='all'?rows.length:(counts[c]||0)})</span>`).join('');
 }
 function renderMarket(){
   const list = applyMarketFilters();
-  document.getElementById('countBadge').textContent = `${list.length}개 표시 중`;
+  document.getElementById('countBadge').textContent = itemsShown(list.length);
   document.getElementById('restoreBtn').style.display = loadHidden().length ? 'inline-block' : 'none';
   renderCatChips();
   renderCards(list);
@@ -623,7 +770,7 @@ document.querySelectorAll('#fullTable th[data-k]').forEach(th => {
 const modal = document.getElementById('modalOverlay');
 let editingMarketId = null;
 function openMarketModal(editId){
-  document.getElementById('f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  document.getElementById('f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${catLabel(c)}</option>`).join('');
   editingMarketId = editId || null;
   if(editingMarketId){
     const r = allRows().find(x => x.id === editingMarketId);
@@ -636,12 +783,12 @@ function openMarketModal(editId){
     document.getElementById('f_followers').value = r.followers || '';
     document.getElementById('f_views').value = r.views || '';
     document.getElementById('f_note').value = r.note || '';
-    document.getElementById('modalTitle').textContent = '영상 수정';
-    document.getElementById('modalSave').textContent = '저장';
+    document.getElementById('modalTitle').textContent = u('editVideo');
+    document.getElementById('modalSave').textContent = u('save');
   } else {
     ['f_account','f_url','f_title','f_followers','f_views','f_note'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('modalTitle').textContent = '영상 추가';
-    document.getElementById('modalSave').textContent = '추가';
+    document.getElementById('modalTitle').textContent = u('addVideo');
+    document.getElementById('modalSave').textContent = u('add');
   }
   modal.classList.add('open');
 }
@@ -652,9 +799,9 @@ document.getElementById('modalSave').addEventListener('click', () => {
   const account = document.getElementById('f_account').value.trim().replace(/^@/,'');
   const urlRaw = document.getElementById('f_url').value.trim();
   const title = document.getElementById('f_title').value.trim();
-  if(!account || !urlRaw || !title){ alert('계정명, 릴스 URL, 제목은 필수입니다.'); return; }
+  if(!account || !urlRaw || !title){ alert(u('alertMarketReq')); return; }
   const code = extractCode(urlRaw);
-  if(!code){ alert('릴스 URL/코드를 확인해주세요.'); return; }
+  if(!code){ alert(u('alertBadUrl')); return; }
   const fields = {
     code, account, title,
     category: document.getElementById('f_category').value,
@@ -697,29 +844,29 @@ function saveSearchAccts(list){ localStorage.setItem(LS_SEARCHACCTS, JSON.string
 let saState = { q:'', category:'all' };
 function renderSaCatChips(){
   const el = document.getElementById('sa_catChips');
-  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${saState.category===c?'active':''}" data-cat="${c}">${c==='all'?'전체':c}</span>`).join('');
+  el.innerHTML = ['all', ...CATEGORIES].map(c => `<span class="chip ${saState.category===c?'active':''}" data-cat="${c}">${c==='all'?t('topicAll'):catLabel(c)}</span>`).join('');
 }
 function renderSearchAccounts(){
   let list = loadSearchAccts();
   if(saState.category !== 'all') list = list.filter(a => a.category === saState.category);
   if(saState.q){ const q = saState.q.toLowerCase(); list = list.filter(a => a.account.toLowerCase().includes(q)); }
   list.sort((a,b) => b.followers - a.followers);
-  document.getElementById('sa_count').textContent = `${list.length}개 표시 중`;
+  document.getElementById('sa_count').textContent = itemsShown(list.length);
   renderSaCatChips();
   document.getElementById('sa_body').innerHTML = list.map(a => `
     <tr>
       <td class="acct-cell"><a href="https://www.instagram.com/${a.account}/" target="_blank">@${esc(a.account)}</a></td>
       <td class="num">${fmtK(a.followers||0)}</td>
-      <td><span class="cat-tag">${esc(a.category||'기타')}</span></td>
+      <td><span class="cat-tag">${esc(catLabel(a.category))}</span></td>
       <td class="note-cell">${esc(a.note||'')}</td>
-      <td><a class="profile-link" href="https://www.instagram.com/${a.account}/" target="_blank">프로필 보기</a></td>
+      <td><a class="profile-link" href="https://www.instagram.com/${a.account}/" target="_blank">${u('profileView')}</a></td>
       <td>
         <span class="row-actions">
-          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openSaModal('${a.id}')">✏️ 수정</button>
-          <button class="del-btn" onclick="deleteSearchAcct('${a.id}')">🗑 삭제</button>
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openSaModal('${a.id}')">${u('edit')}</button>
+          <button class="del-btn" onclick="deleteSearchAcct('${a.id}')">${u('del')}</button>
         </span>
       </td>
-    </tr>`).join('') || `<tr><td colspan="6" class="empty-hint">등록된 계정이 없습니다.</td></tr>`;
+    </tr>`).join('') || `<tr><td colspan="6" class="empty-hint">${u('noAccounts')}</td></tr>`;
 }
 function deleteSearchAcct(id){ saveSearchAccts(loadSearchAccts().filter(a => a.id !== id)); renderSearchAccounts(); }
 document.getElementById('sa_search').addEventListener('input', e => { saState.q = e.target.value; renderSearchAccounts(); });
@@ -728,7 +875,7 @@ document.getElementById('sa_catChips').addEventListener('click', e => { if(!e.ta
 const saModal = document.getElementById('sa_modal');
 let editingSaId = null;
 function openSaModal(editId){
-  document.getElementById('sa_f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  document.getElementById('sa_f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${catLabel(c)}</option>`).join('');
   editingSaId = editId || null;
   if(editingSaId){
     const a = loadSearchAccts().find(x => x.id === editingSaId);
@@ -737,12 +884,12 @@ function openSaModal(editId){
     document.getElementById('sa_f_followers').value = a.followers || '';
     document.getElementById('sa_f_category').value = a.category || CATEGORIES[0];
     document.getElementById('sa_f_note').value = a.note || '';
-    document.getElementById('sa_modalTitle').textContent = '서치계정 수정';
-    document.getElementById('sa_modalSave').textContent = '저장';
+    document.getElementById('sa_modalTitle').textContent = u('editAccount');
+    document.getElementById('sa_modalSave').textContent = u('save');
   } else {
     ['sa_f_account','sa_f_followers','sa_f_note'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('sa_modalTitle').textContent = '서치계정 추가';
-    document.getElementById('sa_modalSave').textContent = '추가';
+    document.getElementById('sa_modalTitle').textContent = u('addAccount');
+    document.getElementById('sa_modalSave').textContent = u('add');
   }
   saModal.classList.add('open');
 }
@@ -751,7 +898,7 @@ document.getElementById('sa_modalCancel').addEventListener('click', () => saModa
 saModal.addEventListener('click', e => { if(e.target === saModal) saModal.classList.remove('open'); });
 document.getElementById('sa_modalSave').addEventListener('click', () => {
   const account = document.getElementById('sa_f_account').value.trim().replace(/^@/,'');
-  if(!account){ alert('계정명은 필수입니다.'); return; }
+  if(!account){ alert(u('alertAcctReq')); return; }
   const fields = { account, followers: parseInt(document.getElementById('sa_f_followers').value)||0, category: document.getElementById('sa_f_category').value, note: document.getElementById('sa_f_note').value.trim() };
   const list = loadSearchAccts();
   if(editingSaId){
@@ -781,25 +928,27 @@ const STAT_CLS = {wait:'stat-wait', progress:'stat-progress', done:'stat-done'};
 let utState = { q:'' };
 function utCardHTML(t){
   const code = t.sourceLink ? extractCode(t.sourceLink) : null;
+  const schedInfo = getScheduleForTarget(t.id);
   const embedBlock = t.status === 'done' ? '' : (code ? `
     <div class="card-embed" id="ut-embed-${t.id}">
       <blockquote class="instagram-media" data-instgrm-permalink="${t.sourceLink}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
-      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
-      <button class="popup-btn" onclick="window.open('${t.sourceLink}','utPopup_${t.id}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
+      <div class="card-fallback" style="display:none"><span>${u('embedFailed')}</span></div>
+      <button class="popup-btn" onclick="window.open('${t.sourceLink}','utPopup_${t.id}','width=420,height=760')" title="${u('playPopup')}">${u('play')}</button>
     </div>
     ${t.sourceAccount ? `
     <div class="card-account-row">
       <div class="acct"><a href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">@${esc(t.sourceAccount)}</a></div>
-      <a class="profile-link" href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">프로필 보기</a>
+      <a class="profile-link" href="https://www.instagram.com/${t.sourceAccount}/" target="_blank">${u('profileView')}</a>
     </div>` : ''}`
-    : `<div class="card-embed-empty">참고 영상 없음<br>(직접 작성한 아이디어)</div>`);
+    : `<div class="card-embed-empty">${u('noRefVideo')}<br>${u('customIdea')}</div>`);
   return `
   <div class="card">
     <div class="card-head">
       <div class="card-cats">
-        <span class="cat-tag">${esc(t.category||'기타')}</span>
-        <span class="badge ${PRIO_CLS[t.priority]}">${PRIO_LABEL[t.priority]}</span>
-        <span class="badge ${STAT_CLS[t.status]}">${STAT_LABEL[t.status]}</span>
+        <span class="cat-tag">${esc(catLabel(t.category))}</span>
+        <span class="badge ${PRIO_CLS[t.priority]}">${prioLabel(t.priority)}</span>
+        <span class="badge ${STAT_CLS[t.status]}">${statLabel(t.status)}</span>
+        ${schedInfo ? `<span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${statLabel(schedInfo.status)}</span>` : ''}
       </div>
       <div class="card-title">${esc(t.title)}</div>
     </div>
@@ -808,14 +957,14 @@ function utCardHTML(t){
       <div class="card-note">${esc(t.note||'')}</div>
       <div class="card-foot">
         <select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
-          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${STAT_LABEL[k]}</option>`).join('')}
+          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${statLabel(k)}</option>`).join('')}
         </select>
         <span>
           ${isScheduled(t.id)
-            ? `<button class="sent-badge" onclick="jumpToTab('schedule')">✅ 일정추가됨</button>`
-            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendTargetToSchedule('${t.id}')">🗓 일정추가</button>`}
-          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openUtModal('${t.id}')">✏️ 수정</button>
-          <button class="del-btn" onclick="deleteTarget('${t.id}')">🗑 삭제</button>
+            ? `<button class="sent-badge" onclick="jumpToTab('schedule')">${u('scheduleAdded')}</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendTargetToSchedule('${t.id}')">${u('addToSchedule')}</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openUtModal('${t.id}')">${u('edit')}</button>
+          <button class="del-btn" onclick="deleteTarget('${t.id}')">${u('del')}</button>
         </span>
       </div>
     </div>
@@ -823,46 +972,47 @@ function utCardHTML(t){
 }
 function renderTargetCards(list){
   const grid = document.getElementById('ut_cardGrid');
-  grid.innerHTML = list.map(utCardHTML).join('') || `<div class="empty-hint">표시할 항목이 없습니다.</div>`;
+  grid.innerHTML = list.map(utCardHTML).join('') || `<div class="empty-hint">${u('noItems')}</div>`;
   const withEmbed = list.filter(t => t.sourceLink && t.status !== 'done');
   processEmbeds(withEmbed, 'ut-embed-');
 }
 function renderTargets(){
   let list = loadTargets();
   if(utState.q){ const q = utState.q.toLowerCase(); list = list.filter(t => t.title.toLowerCase().includes(q)); }
-  document.getElementById('ut_count').textContent = `${list.length}개 표시 중`;
+  document.getElementById('ut_count').textContent = itemsShown(list.length);
   renderTargetCards(list);
   const sortedForTable = [...list].sort((a,b) => (a.status==='done'?1:0) - (b.status==='done'?1:0));
   document.getElementById('ut_body').innerHTML = sortedForTable.map(t => {
     const code = t.sourceLink ? extractCode(t.sourceLink) : null;
+    const schedInfo = getScheduleForTarget(t.id);
     return `
     <tr class="${t.status==='done' ? 'row-done' : ''}">
       <td class="thumb-cell">${code ? `
-        <div class="row-thumb" onclick="window.open('${t.sourceLink}','utThumbPopup_${t.id}','width=420,height=760')" title="클릭해서 재생">▶</div>` : ''}</td>
-      <td><b>${esc(t.title)}</b></td>
-      <td><span class="cat-tag">${esc(t.category||'기타')}</span></td>
+        <div class="row-thumb" onclick="window.open('${t.sourceLink}','utThumbPopup_${t.id}','width=420,height=760')" title="${u('clickToPlay')}">▶</div>` : ''}</td>
+      <td><b>${esc(t.title)}</b>${schedInfo ? `<br><span class="sched-date-tag">📅 ${esc(schedInfo.date)} ${statLabel(schedInfo.status)}</span>` : ''}</td>
+      <td><span class="cat-tag">${esc(catLabel(t.category))}</span></td>
       <td>
         <select class="inline-select" onchange="updateTargetField('${t.id}','priority',this.value)">
-          ${Object.keys(PRIO_LABEL).map(k => `<option value="${k}" ${t.priority===k?'selected':''}>${PRIO_LABEL[k]}</option>`).join('')}
+          ${Object.keys(PRIO_LABEL).map(k => `<option value="${k}" ${t.priority===k?'selected':''}>${prioLabel(k)}</option>`).join('')}
         </select>
       </td>
       <td>
         <select class="inline-select" onchange="updateTargetField('${t.id}','status',this.value)">
-          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${STAT_LABEL[k]}</option>`).join('')}
+          ${Object.keys(STAT_LABEL).map(k => `<option value="${k}" ${t.status===k?'selected':''}>${statLabel(k)}</option>`).join('')}
         </select>
       </td>
-      <td class="note-cell">${esc(t.note||'')}${t.sourceLink ? `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">원본보기 ↗</a>` : ''}</td>
+      <td class="note-cell">${esc(t.note||'')}${t.sourceLink ? `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">${u('viewOriginal')}</a>` : ''}</td>
       <td>
         <span class="row-actions">
           ${isScheduled(t.id)
-            ? `<button class="sent-badge" onclick="jumpToTab('schedule')">✅ 일정추가됨</button>`
-            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendTargetToSchedule('${t.id}')">🗓 일정추가</button>`}
-          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openUtModal('${t.id}')">✏️ 수정</button>
-          <button class="del-btn" onclick="deleteTarget('${t.id}')">🗑 삭제</button>
+            ? `<button class="sent-badge" onclick="jumpToTab('schedule')">${u('scheduleAdded')}</button>`
+            : `<button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="sendTargetToSchedule('${t.id}')">${u('addToSchedule')}</button>`}
+          <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="openUtModal('${t.id}')">${u('edit')}</button>
+          <button class="del-btn" onclick="deleteTarget('${t.id}')">${u('del')}</button>
         </span>
       </td>
     </tr>`;
-  }).join('') || `<tr><td colspan="7" class="empty-hint">등록된 업데이트 대상이 없습니다.</td></tr>`;
+  }).join('') || `<tr><td colspan="7" class="empty-hint">${u('noTargets')}</td></tr>`;
 }
 function updateTargetField(id, field, value){
   const list = loadTargets();
@@ -882,7 +1032,7 @@ document.getElementById('ut_search').addEventListener('input', e => { utState.q 
 const utModal = document.getElementById('ut_modal');
 let editingUtId = null;
 function openUtModal(editId){
-  document.getElementById('ut_f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  document.getElementById('ut_f_category').innerHTML = CATEGORIES.map(c => `<option value="${c}">${catLabel(c)}</option>`).join('');
   editingUtId = editId || null;
   if(editingUtId){
     const t = loadTargets().find(x => x.id === editingUtId);
@@ -892,13 +1042,13 @@ function openUtModal(editId){
     document.getElementById('ut_f_priority').value = t.priority || 'mid';
     document.getElementById('ut_f_status').value = t.status || 'wait';
     document.getElementById('ut_f_note').value = t.note || '';
-    document.getElementById('ut_modalTitle').textContent = '업데이트 대상 수정';
-    document.getElementById('ut_modalSave').textContent = '저장';
+    document.getElementById('ut_modalTitle').textContent = u('editTarget');
+    document.getElementById('ut_modalSave').textContent = u('save');
   } else {
     document.getElementById('ut_f_title').value = ''; document.getElementById('ut_f_note').value = '';
     document.getElementById('ut_f_priority').value = 'mid'; document.getElementById('ut_f_status').value = 'wait';
-    document.getElementById('ut_modalTitle').textContent = '업데이트 대상 추가';
-    document.getElementById('ut_modalSave').textContent = '추가';
+    document.getElementById('ut_modalTitle').textContent = u('addTarget');
+    document.getElementById('ut_modalSave').textContent = u('add');
   }
   utModal.classList.add('open');
 }
@@ -907,7 +1057,7 @@ document.getElementById('ut_modalCancel').addEventListener('click', () => utModa
 utModal.addEventListener('click', e => { if(e.target === utModal) utModal.classList.remove('open'); });
 document.getElementById('ut_modalSave').addEventListener('click', () => {
   const title = document.getElementById('ut_f_title').value.trim();
-  if(!title){ alert('제목은 필수입니다.'); return; }
+  if(!title){ alert(u('alertTitleReq')); return; }
   const fields = { title, category: document.getElementById('ut_f_category').value, priority: document.getElementById('ut_f_priority').value, status: document.getElementById('ut_f_status').value, note: document.getElementById('ut_f_note').value.trim() };
   const list = loadTargets();
   if(editingUtId){
@@ -937,9 +1087,12 @@ let calState = { year: today.getFullYear(), month: today.getMonth() };
 let scState = { q:'' };
 
 const WEEKDAYS_KO = ['일','월','화','수','목','금','토'];
-(function initWeekdayRow(){
-  document.getElementById('cal_weekdays').innerHTML = WEEKDAYS_KO.map(w => `<div class="cal-weekday">${w}</div>`).join('');
-})();
+const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderWeekdayRow(){
+  const w = currentLang === 'en' ? WEEKDAYS_EN : WEEKDAYS_KO;
+  document.getElementById('cal_weekdays').innerHTML = w.map(x => `<div class="cal-weekday">${x}</div>`).join('');
+}
+renderWeekdayRow();
 
 function buildCalendarCells(){
   const firstOfMonth = new Date(calState.year, calState.month, 1);
@@ -950,10 +1103,11 @@ function buildCalendarCells(){
 }
 
 function renderSchedule(){
+  renderWeekdayRow();
   let list = loadSchedule();
   if(scState.q){ const q = scState.q.toLowerCase(); list = list.filter(s => s.title.toLowerCase().includes(q)); }
-  document.getElementById('sc_count').textContent = `${list.length}개 일정`;
-  document.getElementById('cal_title').textContent = `${calState.year}년 ${calState.month+1}월`;
+  document.getElementById('sc_count').textContent = schedulesCount(list.length);
+  document.getElementById('cal_title').textContent = currentLang === 'en' ? `${MONTHS_EN[calState.month]} ${calState.year}` : `${calState.year}년 ${calState.month+1}월`;
 
   const todayStr = ymd(today);
   const cells = buildCalendarCells();
@@ -963,14 +1117,14 @@ function renderSchedule(){
     const isToday = dateStr === todayStr;
     const events = list.filter(s => s.date === dateStr);
     return `<div class="cal-cell ${outside?'outside':''} ${isToday?'today':''}">
-      <div class="cal-daynum" onclick="openScheduleModal({date:'${dateStr}'})" title="이 날짜에 일정 추가">${d.getDate()}</div>
+      <div class="cal-daynum" onclick="openScheduleModal({date:'${dateStr}'})" title="${u('addOnDate')}">${d.getDate()}</div>
       ${events.map(s => `
         <div class="cal-event ${STAT_CLS[s.status]}">
-          <span class="cal-ev-dot" title="상태 변경: ${STAT_LABEL[s.status]} (클릭)" onclick="cycleScheduleStatus('${s.id}')">●</span>
-          ${(s.linkInstagram||s.linkYoutube||s.linkTiktok) ? `<a class="cal-ev-title" href="${esc(s.linkInstagram||s.linkYoutube||s.linkTiktok)}" target="_blank" title="${esc(s.title)} — 클릭 시 링크 재생">${esc(s.title)}</a>`
+          <span class="cal-ev-dot" title="${statusChangeTitle(statLabel(s.status))}" onclick="cycleScheduleStatus('${s.id}')">●</span>
+          ${(s.linkInstagram||s.linkYoutube||s.linkTiktok) ? `<a class="cal-ev-title" href="${esc(s.linkInstagram||s.linkYoutube||s.linkTiktok)}" target="_blank" title="${esc(s.title)} — ${u('clickToPlay')}">${esc(s.title)}</a>`
                     : `<span class="cal-ev-title" title="${esc(s.title)}">${esc(s.title)}</span>`}
-          <button class="cal-ev-del" onclick="editScheduleItem('${s.id}')" title="수정" style="opacity:.55">✎</button>
-          <button class="cal-ev-del" onclick="deleteSchedule('${s.id}')" title="삭제">×</button>
+          <button class="cal-ev-del" onclick="editScheduleItem('${s.id}')" title="${currentLang==='en'?'Edit':'수정'}" style="opacity:.55">✎</button>
+          <button class="cal-ev-del" onclick="deleteSchedule('${s.id}')" title="${currentLang==='en'?'Delete':'삭제'}">×</button>
         </div>`).join('')}
     </div>`;
   }).join('');
@@ -1008,8 +1162,8 @@ function platformEmbedHTML(platformKey, link, embedId){
   return `
     <div class="card-embed" id="${embedId}">
       <blockquote class="instagram-media" data-instgrm-permalink="${link}" data-instgrm-version="14" style="width:100%;height:100%;margin:0;border:0;"></blockquote>
-      <div class="card-fallback" style="display:none"><span>미리보기를 불러오지 못했습니다</span></div>
-      <button class="popup-btn" onclick="window.open('${link}','donePopup_${embedId}','width=420,height=760')" title="새 창에서 재생">▶ 재생</button>
+      <div class="card-fallback" style="display:none"><span>${u('embedFailed')}</span></div>
+      <button class="popup-btn" onclick="window.open('${link}','donePopup_${embedId}','width=420,height=760')" title="${u('playPopup')}">${u('play')}</button>
     </div>`;
 }
 function platformSectionHTML(s, p){
@@ -1018,11 +1172,11 @@ function platformSectionHTML(s, p){
   const embedId = `done-embed-${p.key}-${s.id}`;
   const metricsHTML = p.metrics.map(m => {
     const field = `${m}_${p.key}`;
-    return `<label>${METRIC_LABEL[m]} <input type="number" class="inline-num" value="${s[field] ?? ''}" placeholder="0" onchange="updateDoneField('${s.id}','${field}',this.value)"></label>`;
+    return `<label>${metricLabel(m)} <input type="number" class="inline-num" value="${s[field] ?? ''}" placeholder="0" onchange="updateDoneField('${s.id}','${field}',this.value)"></label>`;
   }).join('');
   return `
   <div class="platform-section">
-    <div class="platform-section-head">${p.label}<a class="src-link" href="${esc(link)}" target="_blank">게시물 보기 ↗</a></div>
+    <div class="platform-section-head">${platformLabel(p)}<a class="src-link" href="${esc(link)}" target="_blank">${u('postView')}</a></div>
     ${p.hasEmbed ? platformEmbedHTML(p.key, link, embedId) : ''}
     <div class="done-metrics">${metricsHTML}</div>
   </div>`;
@@ -1038,13 +1192,13 @@ function doneCardHTML(s){
       <div class="card-cats"><span class="cat-tag">${esc(s.date||'')}</span></div>
       <div class="card-title">${esc(s.title)}</div>
     </div>
-    ${sections || '<div class="card-embed-empty">연결된 게시물 링크 없음</div>'}
+    ${sections || `<div class="card-embed-empty">${u('noLinkedPost')}</div>`}
     <div class="card-body">
       <div class="card-foot">
-        <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="editScheduleItem('${s.id}')">✏️ 링크/일정 수정</button>
+        <button class="btn-ghost" style="padding:4px 9px;font-size:11px" onclick="editScheduleItem('${s.id}')">${u('editLinkSchedule')}</button>
       </div>
-      ${s.sourceFile ? `<div class="card-note">📁 원본 파일: ${/^https?:\/\//.test(s.sourceFile) ? `<a class="src-link" href="${esc(s.sourceFile)}" target="_blank">${esc(s.sourceFile)} ↗</a>` : esc(s.sourceFile)}</div>` : ''}
-      ${refTargets.length ? `<div class="card-note">🔗 참고했던 원본 (${refTargets.length}개): ${refTargets.map(t => `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">${t.sourceAccount ? '@'+esc(t.sourceAccount) : '원본 영상'} ↗</a>`).join(' · ')}</div>` : ''}
+      ${s.sourceFile ? `<div class="card-note">${u('sourceFile')} ${/^https?:\/\//.test(s.sourceFile) ? `<a class="src-link" href="${esc(s.sourceFile)}" target="_blank">${esc(s.sourceFile)} ↗</a>` : esc(s.sourceFile)}</div>` : ''}
+      ${refTargets.length ? `<div class="card-note">${refOriginals(refTargets.length)} ${refTargets.map(t => `<a class="src-link" href="${esc(t.sourceLink)}" target="_blank">${t.sourceAccount ? '@'+esc(t.sourceAccount) : u('originalVideo')} ↗</a>`).join(' · ')}</div>` : ''}
     </div>
   </div>`;
 }
@@ -1052,9 +1206,9 @@ function renderDone(){
   let list = loadSchedule().filter(s => s.status === 'done');
   if(doneState.q){ const q = doneState.q.toLowerCase(); list = list.filter(s => s.title.toLowerCase().includes(q)); }
   list.sort((a,b) => (b.date||'').localeCompare(a.date||''));
-  document.getElementById('done_count').textContent = `${list.length}개 표시 중`;
+  document.getElementById('done_count').textContent = itemsShown(list.length);
   const grid = document.getElementById('done_cardGrid');
-  grid.innerHTML = list.map(doneCardHTML).join('') || `<div class="empty-hint">완료 상태인 업데이트가 없습니다. 업데이트 일정 탭에서 상태를 '완료'로 바꿔주세요.</div>`;
+  grid.innerHTML = list.map(doneCardHTML).join('') || `<div class="empty-hint">${u('noDoneUpdates')}</div>`;
   const igItems = list.filter(s => s.linkInstagram).map(s => ({...s, id:`instagram-${s.id}`, link: s.linkInstagram}));
   processEmbeds(igItems, 'done-embed-');
 }
@@ -1079,9 +1233,9 @@ function renderLinkedRefsList(scId, targetIds){
     if(!t) return '';
     return `<div class="ref-row">
       <span>${esc(t.title)}${t.sourceAccount ? ' · @'+esc(t.sourceAccount) : ''}</span>
-      <span>${t.sourceLink ? `<a href="${esc(t.sourceLink)}" target="_blank">보기 ↗</a>` : ''} <button class="ref-remove" onclick="removeLinkedTarget('${scId}','${tid}')">제거</button></span>
+      <span>${t.sourceLink ? `<a href="${esc(t.sourceLink)}" target="_blank">${u('view')}</a>` : ''} <button class="ref-remove" onclick="removeLinkedTarget('${scId}','${tid}')">${u('remove')}</button></span>
     </div>`;
-  }).join('') || '<div class="ref-row">연결된 항목 없음</div>';
+  }).join('') || `<div class="ref-row">${u('connectedNone')}</div>`;
 }
 function openScheduleModal(prefill, linkTargetId){
   prefill = prefill || {};
@@ -1103,7 +1257,7 @@ function openScheduleModal(prefill, linkTargetId){
     linkedWrap.style.display = 'none';
     const sel = document.getElementById('sc_f_linkTarget');
     const existing = loadSchedule();
-    sel.innerHTML = '<option value="__new__">🆕 새 일정 만들기</option>' +
+    sel.innerHTML = `<option value="__new__">${u('createNewSchedule')}</option>` +
       existing.map(s => `<option value="${s.id}">${esc(s.date)} · ${esc(s.title)}</option>`).join('');
     sel.value = '__new__';
   } else if(editingScId && (prefill.sourceTargetIds||[]).length){
@@ -1115,8 +1269,8 @@ function openScheduleModal(prefill, linkTargetId){
     linkedWrap.style.display = 'none';
   }
 
-  document.getElementById('sc_modalTitle').textContent = editingScId ? '일정 수정' : '업데이트 일정 추가';
-  document.getElementById('sc_modalSave').textContent = editingScId ? '저장' : '추가';
+  document.getElementById('sc_modalTitle').textContent = editingScId ? u('editSchedule') : u('addSchedule');
+  document.getElementById('sc_modalSave').textContent = editingScId ? u('save') : u('add');
   scModal.classList.add('open');
 }
 function removeLinkedTarget(scId, targetId){
@@ -1139,7 +1293,7 @@ scModal.addEventListener('click', e => { if(e.target === scModal) scModal.classL
 document.getElementById('sc_modalSave').addEventListener('click', () => {
   const date = document.getElementById('sc_f_date').value;
   const title = document.getElementById('sc_f_title').value.trim();
-  if(!date || !title){ alert('날짜와 제목은 필수입니다.'); return; }
+  if(!date || !title){ alert(u('alertDateTitleReq')); return; }
 
   if(scPendingLinkTargetId && !editingScId){
     const sel = document.getElementById('sc_f_linkTarget');
