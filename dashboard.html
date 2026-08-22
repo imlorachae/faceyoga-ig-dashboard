@@ -579,17 +579,59 @@ function applyStaticI18n(){
   const btn = document.getElementById('langToggleBtn');
   if(btn) btn.textContent = t('langToggle');
 }
+function renderAll(){ renderMarket(); renderSearchAccounts(); renderTargets(); renderSchedule(); renderDone(); }
 function setLang(lang){
   currentLang = lang;
   localStorage.setItem(LS_LANG, lang);
   applyStaticI18n();
-  renderMarket(); renderSearchAccounts(); renderTargets(); renderSchedule(); renderDone();
+  renderAll();
 }
 document.addEventListener('DOMContentLoaded', () => {
   applyStaticI18n();
   const btn = document.getElementById('langToggleBtn');
   if(btn) btn.addEventListener('click', () => setLang(currentLang === 'ko' ? 'en' : 'ko'));
 });
+
+/* ══════════════════════════════════════════════
+   클라우드 동기화 (Google Apps Script — 다른 사람도 같은 데이터를 보게)
+   GAS_URL이 비어있으면 완전히 비활성화 (로컬 저장만 사용)
+   ══════════════════════════════════════════════ */
+const GAS_URL = '';
+const GAS_TOKEN = 'jb-ig-sync-201a284ad6ae';
+function collectSyncState(){
+  return {
+    searchAccts: loadSearchAccts(), custom: loadCustom(), hidden: loadHidden(),
+    overrides: loadOverrides(), targets: loadTargets(), schedule: loadSchedule()
+  };
+}
+function applySyncState(s){
+  if(s.searchAccts) localStorage.setItem(LS_SEARCHACCTS, JSON.stringify(s.searchAccts));
+  if(s.custom) localStorage.setItem(LS_CUSTOM, JSON.stringify(s.custom));
+  if(s.hidden) localStorage.setItem(LS_HIDDEN, JSON.stringify(s.hidden));
+  if(s.overrides) localStorage.setItem(LS_OVERRIDES, JSON.stringify(s.overrides));
+  if(s.targets) localStorage.setItem(LS_TARGETS, JSON.stringify(s.targets));
+  if(s.schedule) localStorage.setItem(LS_SCHEDULE, JSON.stringify(s.schedule));
+}
+let cloudPushTimer = null;
+function schedulePush(){
+  if(!GAS_URL) return;
+  clearTimeout(cloudPushTimer);
+  cloudPushTimer = setTimeout(() => {
+    fetch(GAS_URL, { method:'POST', body: JSON.stringify({ token: GAS_TOKEN, state: collectSyncState() }) })
+      .catch(err => console.warn('클라우드 동기화 저장 실패', err));
+  }, 800);
+}
+async function pullFromCloud(){
+  if(!GAS_URL) return;
+  try{
+    const res = await fetch(GAS_URL);
+    const data = await res.json();
+    if(data.ok && data.exists && data.state){
+      applySyncState(data.state);
+      renderAll();
+    }
+  }catch(err){ console.warn('클라우드 동기화 불러오기 실패', err); }
+}
 
 /* ══════════════════════════════════════════════
    탭 2: 시장조사 (기존 로직)
@@ -602,11 +644,11 @@ function loadCustom(){
   if(raw === null){ localStorage.setItem(LS_CUSTOM, JSON.stringify(DEFAULT_CUSTOM)); return DEFAULT_CUSTOM; }
   try{ return JSON.parse(raw) || []; }catch(e){ return []; }
 }
-function saveCustom(list){ localStorage.setItem(LS_CUSTOM, JSON.stringify(list)); }
+function saveCustom(list){ localStorage.setItem(LS_CUSTOM, JSON.stringify(list)); schedulePush(); }
 function loadHidden(){ try{ return JSON.parse(localStorage.getItem(LS_HIDDEN)) || []; }catch(e){ return []; } }
-function saveHidden(list){ localStorage.setItem(LS_HIDDEN, JSON.stringify(list)); }
+function saveHidden(list){ localStorage.setItem(LS_HIDDEN, JSON.stringify(list)); schedulePush(); }
 function loadOverrides(){ try{ return JSON.parse(localStorage.getItem(LS_OVERRIDES)) || {}; }catch(e){ return {}; } }
-function saveOverrides(obj){ localStorage.setItem(LS_OVERRIDES, JSON.stringify(obj)); }
+function saveOverrides(obj){ localStorage.setItem(LS_OVERRIDES, JSON.stringify(obj)); schedulePush(); }
 
 let mState = { sort:'vfr', topic:'all', category:'all', q:'' };
 
@@ -862,7 +904,7 @@ function loadSearchAccts(){
   if(!raw){ localStorage.setItem(LS_SEARCHACCTS, JSON.stringify(DEFAULT_SEARCHACCTS)); return DEFAULT_SEARCHACCTS; }
   try{ return JSON.parse(raw); }catch(e){ return []; }
 }
-function saveSearchAccts(list){ localStorage.setItem(LS_SEARCHACCTS, JSON.stringify(list)); }
+function saveSearchAccts(list){ localStorage.setItem(LS_SEARCHACCTS, JSON.stringify(list)); schedulePush(); }
 
 let saState = { q:'', category:'all' };
 function renderSaCatChips(){
@@ -942,7 +984,7 @@ function loadTargets(){
   if(raw === null){ localStorage.setItem(LS_TARGETS, JSON.stringify(DEFAULT_TARGETS)); return DEFAULT_TARGETS; }
   try{ return JSON.parse(raw) || []; }catch(e){ return []; }
 }
-function saveTargets(list){ localStorage.setItem(LS_TARGETS, JSON.stringify(list)); }
+function saveTargets(list){ localStorage.setItem(LS_TARGETS, JSON.stringify(list)); schedulePush(); }
 const PRIO_LABEL = {high:'높음', mid:'중간', low:'낮음'};
 const PRIO_CLS = {high:'prio-high', mid:'prio-mid', low:'prio-low'};
 const STAT_LABEL = {wait:'대기', progress:'진행중', done:'완료'};
@@ -1109,7 +1151,7 @@ function loadSchedule(){
   if(raw === null){ localStorage.setItem(LS_SCHEDULE, JSON.stringify(DEFAULT_SCHEDULE)); return DEFAULT_SCHEDULE; }
   try{ return JSON.parse(raw) || []; }catch(e){ return []; }
 }
-function saveSchedule(list){ localStorage.setItem(LS_SCHEDULE, JSON.stringify(list)); }
+function saveSchedule(list){ localStorage.setItem(LS_SCHEDULE, JSON.stringify(list)); schedulePush(); }
 const pad2 = n => String(n).padStart(2,'0');
 const ymd = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
 
@@ -1365,11 +1407,8 @@ document.getElementById('sc_modalSave').addEventListener('click', () => {
 });
 
 /* ══════════ 초기 렌더 ══════════ */
-renderMarket();
-renderSearchAccounts();
-renderTargets();
-renderSchedule();
-renderDone();
+renderAll();
+pullFromCloud();
 </script>
 <script async src="//www.instagram.com/embed.js"></script>
 </body>
